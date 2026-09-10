@@ -8,32 +8,32 @@
   классы stone-* остаются, меняется только тон — без тёплого подтона.
 */
 @theme {
-  --color-brand-50: #f3f2fa;
-  --color-brand-100: #e6e4f4;
-  --color-brand-200: #cfcbea;
-  --color-brand-300: #b0a9db;
-  --color-brand-400: #8c82c7;
-  --color-brand-500: #6d62b0;
-  --color-brand-600: #52489c;
-  --color-brand-700: #453c82;
-  --color-brand-800: #39326a;
-  --color-brand-900: #2f2b55;
-  --color-brand-950: #1c1a33;
+  --color-brand-50: #f4f6fb;
+  --color-brand-100: #e5ebf6;
+  --color-brand-200: #c9d7ed;
+  --color-brand-300: #a1b9e3;
+  --color-brand-400: #6e95d8;
+  --color-brand-500: #3e74d1;
+  --color-brand-600: #3870d0;
+  --color-brand-700: #264e91;
+  --color-brand-800: #203f74;
+  --color-brand-900: #1a325b;
+  --color-brand-950: #111f37;
 
-  --color-white: #fcfcfe;
-  --color-black: #090812;
+  --color-white: #fcfdfe;
+  --color-black: #080b12;
 
-  --color-stone-50: #f9f9fb;
-  --color-stone-100: #f2f2f5;
-  --color-stone-200: #e6e5eb;
-  --color-stone-300: #cfceda;
-  --color-stone-400: #9996b0;
-  --color-stone-500: #6b6789;
-  --color-stone-600: #524f69;
-  --color-stone-700: #3d3b4e;
-  --color-stone-800: #292734;
-  --color-stone-900: #1b1a23;
-  --color-stone-950: #100f14;
+  --color-stone-50: #f9fafb;
+  --color-stone-100: #f2f3f5;
+  --color-stone-200: #e5e7eb;
+  --color-stone-300: #ced2da;
+  --color-stone-400: #96a0b0;
+  --color-stone-500: #677389;
+  --color-stone-600: #4f5869;
+  --color-stone-700: #3b424e;
+  --color-stone-800: #272c34;
+  --color-stone-900: #1a1d23;
+  --color-stone-950: #0f1114;
 }
 
 @custom-variant dark (&:is(.dark *));

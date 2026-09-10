@@ -88,18 +88,11 @@ in-memory реализацию контракта с демо-данными.
 
 ```bash
 cd frontend
-npm run palette -- 52489C                          # оттенки бренда и подсказки гармоний
-npm run palette -- https://coolors.co/52489c-ebebeb  # бренд + нейтраль из ссылки coolors
-npm run palette -- 52489C EBEBEB --preview         # HTML-превью в scripts/palette-preview.html
-npm run palette -- 52489C EBEBEB --apply           # записать шкалы в index.css
+npm run palette -- 3870D0                          # оттенки бренда и подсказки гармоний
+npm run palette -- https://coolors.co/3870d0-ebebeb  # бренд + нейтраль из ссылки coolors
+npm run palette -- 3870D0 EBEBEB --preview         # HTML-превью в scripts/palette-preview.html
+npm run palette -- 3870D0 EBEBEB --apply           # записать шкалы в index.css
 ```
-
-Есть и живой режим прямо в приложении: откройте любую страницу с `?palette`
-(в dev включён всегда) и нажимайте **пробел** — новая брендовая шкала применяется
-мгновенно, без пересборки. Конкретный цвет подставляется параметром:
-`?primary=52489C&neutral=EBEBEB`. Стрелки ←/→ крутят тон, ↑/↓ насыщенность, **N** меняет
-подтон нейтрали, **C** копирует готовый блок `@theme`, **R** сбрасывает, **Esc**
-скрывает панель.
 
 Генератор печатает ссылку на coolors.co с гармоничными акцентами, чтобы покрутить
 их там, а `--apply` переписывает только блоки `--color-brand-*` и `--color-stone-*`.
