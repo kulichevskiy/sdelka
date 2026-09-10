@@ -28,15 +28,17 @@ const features = [
 const primaryButton =
   'inline-flex items-center justify-center gap-2 rounded-lg bg-brand-600 px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-700 dark:bg-brand-500 dark:text-white dark:hover:bg-brand-400'
 const secondaryButton =
-  'inline-flex items-center justify-center gap-2 rounded-lg border border-stone-200 px-5 py-3 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-100 dark:border-stone-800 dark:text-stone-300 dark:hover:bg-stone-800'
+  'inline-flex items-center justify-center gap-2 rounded-lg border border-brand-300 bg-white/60 px-5 py-3 text-sm font-medium text-stone-800 transition-colors hover:bg-white dark:border-brand-800 dark:bg-transparent dark:text-stone-300 dark:hover:bg-stone-800'
 
 export function LandingPage() {
   return (
     <div className="min-h-screen bg-stone-50 text-stone-900 dark:bg-stone-900 dark:text-stone-100" style={{ fontFamily: FONT }}>
+      {/* Шапка и hero на брендовом фоне: цвет идёт от самого верха страницы */}
+      <div className="bg-brand-100 dark:bg-brand-950">
       <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
         <Logo />
         <nav className="flex items-center gap-2">
-          <Link to="/login" className="rounded-lg px-3 py-2 text-sm font-medium text-stone-600 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-800">
+          <Link to="/login" className="rounded-lg px-3 py-2 text-sm font-medium text-stone-700 hover:bg-brand-200/60 dark:text-stone-300 dark:hover:bg-brand-900">
             Войти
           </Link>
           <Link to="/register" className="rounded-lg bg-brand-600 px-3 py-2 text-sm font-medium text-white hover:bg-brand-700 dark:bg-brand-500 dark:text-white dark:hover:bg-brand-400">
@@ -45,7 +47,6 @@ export function LandingPage() {
         </nav>
       </header>
 
-      <main>
         {/* Hero */}
         <section className="mx-auto grid w-full max-w-6xl items-center gap-10 px-4 pt-10 pb-16 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:pt-16 lg:pb-24">
           <div>
@@ -53,7 +54,7 @@ export function LandingPage() {
             <h1 className="mt-3 text-4xl leading-[1.05] font-black tracking-tight sm:text-5xl lg:text-6xl">
               Каждая сделка знает свой следующий шаг
             </h1>
-            <p className="mt-5 max-w-lg text-base leading-relaxed text-stone-600 sm:text-lg dark:text-stone-400">
+            <p className="mt-5 max-w-lg text-base leading-relaxed text-stone-700 sm:text-lg dark:text-stone-300">
               Sales HQ держит в порядке сделки, контакты и задачи команды. Без настроек на неделю: зарегистрировались, пригласили
               коллег, работаете.
             </p>
@@ -71,6 +72,9 @@ export function LandingPage() {
 
           <HeroMock />
         </section>
+      </div>
+
+      <main>
 
         {/* Преимущества */}
         <section className="border-y border-stone-200 bg-white dark:border-stone-800 dark:bg-stone-950">
