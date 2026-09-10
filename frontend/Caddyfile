@@ -18,3 +18,5 @@
 		file_server
 	}
 }
+
+{$WWW_REDIRECT}
