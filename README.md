@@ -81,6 +81,22 @@ in-memory реализацию контракта с демо-данными.
 
 Тесты бэкенда: см. `backend/README.md`.
 
+### Цветовая гамма
+
+Палитры живут в `frontend/src/index.css` (`@theme`): `brand-*` — фирменный цвет,
+`stone-*` — нейтраль. Подобрать новые оттенки помогает генератор:
+
+```bash
+cd frontend
+npm run palette -- 52489C                          # оттенки бренда и подсказки гармоний
+npm run palette -- https://coolors.co/52489c-ebebeb  # бренд + нейтраль из ссылки coolors
+npm run palette -- 52489C EBEBEB --preview         # HTML-превью в scripts/palette-preview.html
+npm run palette -- 52489C EBEBEB --apply           # записать шкалы в index.css
+```
+
+Генератор печатает ссылку на coolors.co с гармоничными акцентами, чтобы покрутить
+их там, а `--apply` переписывает только блоки `--color-brand-*` и `--color-stone-*`.
+
 ## Архитектура
 
 ```
