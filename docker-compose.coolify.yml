@@ -1,0 +1,56 @@
+# Состав для Coolify: Postgres + API + веб, HTTPS и домен выдаёт прокси Coolify.
+# В Coolify: New Resource → Docker Compose → этот файл; домен https://sdelka.app вешается на сервис web.
+#
+# Переменные SERVICE_* Coolify генерирует сам при первом деплое:
+#   SERVICE_PASSWORD_POSTGRES     — пароль БД
+#   SERVICE_PASSWORD_64_SECRETKEY — SECRET_KEY (64 символа)
+#   SERVICE_FQDN_WEB / SERVICE_URL_WEB — домен и URL, назначенные сервису web
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: crm
+      POSTGRES_PASSWORD: ${SERVICE_PASSWORD_POSTGRES}
+      POSTGRES_DB: crm
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U crm -d crm"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+asyncpg://crm:${SERVICE_PASSWORD_POSTGRES}@db:5432/crm
+      SECRET_KEY: ${SERVICE_PASSWORD_64_SECRETKEY}
+      # Публичный адрес — для ссылок приглашений и сброса пароля
+      APP_URL: ${SERVICE_URL_WEB}
+      DEBUG: ${DEBUG:-false}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_FROM: ${SMTP_FROM:-Сделка <noreply@sdelka.app>}
+
+  web:
+    build: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - api
+    environment:
+      # Упоминание SERVICE_FQDN_WEB говорит Coolify, что домен принадлежит этому сервису.
+      SERVICE_FQDN_WEB: ${SERVICE_FQDN_WEB}
+      # DOMAIN пуст: Caddy внутри отдаёт HTTP на :80, TLS терминирует прокси Coolify
+      DOMAIN: ""
+    expose:
+      - "80"
+
+volumes:
+  pgdata:

@@ -33,32 +33,58 @@ open http://localhost:8080
 Миграции применяются автоматически при старте контейнера `api`. Зарегистрируйте
 организацию, затем в чеклисте на «Сегодня» нажмите «Заполнить демо-данными».
 
-## Деплой на VPS
+## Деплой на VPS через Coolify
 
-1. Направьте A-запись домена на IP сервера, откройте порты 80 и 443.
-2. Установите Docker и Docker Compose plugin.
-3. В `.env` задайте:
-   ```
-   DOMAIN=sdelka.app
-   APP_URL=https://sdelka.app
-   HTTP_PORT=80
-   HTTPS_PORT=443
-   SECRET_KEY=<длинная случайная строка>
-   POSTGRES_PASSWORD=<пароль>
-   ```
-4. `docker compose up -d --build`. Caddy сам получит сертификат Let's Encrypt.
+Используется `docker-compose.coolify.yml`: Postgres, API и веб в одном стеке, а HTTPS,
+домен и деплой из git берёт на себя Coolify. Секреты (`SERVICE_PASSWORD_*`) Coolify
+генерирует сам при первом деплое.
 
-Почта необязательна: без `SMTP_HOST` ссылки приглашений и сброса пароля админ
-копирует прямо из интерфейса. С SMTP они дополнительно уходят письмом.
+1. Запушьте репозиторий на GitHub (или GitLab) и подключите его в Coolify
+   (Sources → GitHub App или deploy key).
+2. **New Resource → Docker Compose**, выберите репозиторий и ветку `main`,
+   в поле *Docker Compose Location* укажите `/docker-compose.coolify.yml`.
+3. После загрузки в карточке сервиса `web` задайте домен `https://sdelka.app`.
+   Если нужен и `www`, перечислите через запятую: `https://sdelka.app,https://www.sdelka.app`.
+4. В DNS направьте A-запись `sdelka.app` (и `www`) на IP сервера. На сервере должны
+   быть открыты порты 80 и 443 для прокси Coolify.
+5. **Deploy.** Миграции применяются при старте `api`, сертификат выпустит прокси Coolify.
+6. Необязательно: в *Environment Variables* добавьте `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`,
+   `SMTP_PASSWORD`, `SMTP_FROM`. Без SMTP ссылки приглашений и сброса пароля админ
+   копирует прямо из интерфейса.
 
-**Обновление:** `git pull && docker compose up -d --build`.
+**Обновление:** push в `main` (включите *Auto Deploy* в настройках ресурса) или кнопка
+*Redeploy*.
 
-**Бэкап БД:**
+**Бэкап БД.** Встроенные бэкапы Coolify работают только для его собственных ресурсов
+Postgres, а не для базы из compose, поэтому дамп снимаем командой. На сервере:
+
 ```bash
-docker compose exec db pg_dump -U crm crm | gzip > backup-$(date +%F).sql.gz
+CID=$(docker ps -qf name=^db-)         # контейнер Postgres нашего стека
+docker exec "$CID" pg_dump -U crm crm | gzip > /root/backups/sdelka-$(date +%F).sql.gz
 # восстановление
-gunzip -c backup.sql.gz | docker compose exec -T db psql -U crm crm
+gunzip -c sdelka-2026-09-10.sql.gz | docker exec -i "$CID" psql -U crm crm
 ```
+
+Поставьте её в cron (`crontab -e`, например `0 3 * * *`) и выгружайте каталог
+`/root/backups` в S3 или другое хранилище. Альтернатива: завести Postgres как отдельный
+ресурс Coolify (там бэкапы в S3 по расписанию из коробки) и указать его адрес в
+`DATABASE_URL`.
+
+### Без Coolify (просто Docker на сервере)
+
+Тот же стек, но HTTPS выдаёт Caddy внутри контейнера `web`. В `.env`:
+
+```
+DOMAIN=sdelka.app
+APP_URL=https://sdelka.app
+HTTP_PORT=80
+HTTPS_PORT=443
+SECRET_KEY=<длинная случайная строка>   # openssl rand -hex 32
+POSTGRES_PASSWORD=<пароль>
+```
+
+Затем `docker compose up -d --build`; обновление `git pull && docker compose up -d --build`;
+бэкап `docker compose exec db pg_dump -U crm crm | gzip > backup-$(date +%F).sql.gz`.
 
 ## Разработка
 
