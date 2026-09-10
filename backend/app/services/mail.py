@@ -39,8 +39,8 @@ async def send_mail(to: str, subject: str, body: str) -> bool:
 async def send_invite(to: str, org_name: str, inviter: str, url: str) -> bool:
     return await send_mail(
         to,
-        f"Приглашение в {org_name} — Sales HQ",
-        f"{inviter} приглашает вас в организацию «{org_name}» в Sales HQ.\n\n"
+        f"Приглашение в {org_name} — Сделка",
+        f"{inviter} приглашает вас в организацию «{org_name}» в Сделка.\n\n"
         f"Чтобы принять приглашение и задать пароль, откройте ссылку:\n{url}\n\n"
         "Ссылка действует 14 дней.",
     )
@@ -49,7 +49,7 @@ async def send_invite(to: str, org_name: str, inviter: str, url: str) -> bool:
 async def send_reset(to: str, url: str) -> bool:
     return await send_mail(
         to,
-        "Сброс пароля — Sales HQ",
+        "Сброс пароля — Сделка",
         f"Чтобы задать новый пароль, откройте ссылку:\n{url}\n\n"
         "Ссылка действует 2 часа. Если вы не запрашивали сброс, просто проигнорируйте письмо.",
     )

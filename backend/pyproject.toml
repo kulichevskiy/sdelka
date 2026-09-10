@@ -1,7 +1,7 @@
 [project]
-name = "saleshq-backend"
+name = "sdelka-backend"
 version = "0.1.0"
-description = "Sales HQ — API многопользовательской CRM"
+description = "Сделка — API многопользовательской CRM"
 requires-python = ">=3.12,<3.13"
 dependencies = [
     "fastapi>=0.115",

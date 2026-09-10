@@ -1,4 +1,4 @@
-# Sales HQ — CRM для небольших команд продаж
+# Сделка (sdelka.app) — CRM для небольших команд продаж
 
 Multi-tenant SaaS: каждая команда регистрирует свою организацию, приглашает коллег
 и ведёт сделки, контакты и задачи в изолированном пространстве. Учебный проект,
@@ -24,7 +24,7 @@ Tailwind 4 + TanStack Query · Docker Compose + Caddy (автоматическ�
 ## Быстрый старт (Docker)
 
 ```bash
-git clone <repo> crm && cd crm
+git clone <repo> sdelka && cd crm
 cp .env.example .env          # поменяйте SECRET_KEY и POSTGRES_PASSWORD
 docker compose up -d --build
 open http://localhost:8080
@@ -39,8 +39,8 @@ open http://localhost:8080
 2. Установите Docker и Docker Compose plugin.
 3. В `.env` задайте:
    ```
-   DOMAIN=crm.example.com
-   APP_URL=https://crm.example.com
+   DOMAIN=sdelka.app
+   APP_URL=https://sdelka.app
    HTTP_PORT=80
    HTTPS_PORT=443
    SECRET_KEY=<длинная случайная строка>

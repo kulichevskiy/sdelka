@@ -23,7 +23,7 @@ logging.basicConfig(level=logging.INFO)
 def create_app() -> FastAPI:
     cfg = get_settings()
     app = FastAPI(
-        title="Sales HQ API",
+        title="Сделка API",
         version="0.1.0",
         openapi_url="/api/openapi.json",
         docs_url="/api/docs" if cfg.debug else None,

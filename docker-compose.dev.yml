@@ -2,6 +2,8 @@
 #   docker compose -f docker-compose.dev.yml up -d
 #   cd backend  && uv run uvicorn app.main:app --reload --port 8000
 #   cd frontend && npm run dev            # http://localhost:5173, /api проксируется на 8000
+name: crm-dev
+
 services:
   db:
     image: postgres:16-alpine

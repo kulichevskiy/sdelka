@@ -4,42 +4,42 @@
     {
       "id": "u1",
       "name": "Анна Соколова",
-      "email": "a.sokolova@saleshq.ru",
+      "email": "a.sokolova@sdelka.app",
       "role": "admin",
       "status": "active"
     },
     {
       "id": "u2",
       "name": "Дмитрий Волков",
-      "email": "d.volkov@saleshq.ru",
+      "email": "d.volkov@sdelka.app",
       "role": "employee",
       "status": "active"
     },
     {
       "id": "u3",
       "name": "Марина Гусева",
-      "email": "m.guseva@saleshq.ru",
+      "email": "m.guseva@sdelka.app",
       "role": "admin",
       "status": "active"
     },
     {
       "id": "u4",
       "name": "Павел Рыбаков",
-      "email": "p.rybakov@saleshq.ru",
+      "email": "p.rybakov@sdelka.app",
       "role": "employee",
       "status": "active"
     },
     {
       "id": "u5",
       "name": "Кирилл Ланге",
-      "email": "k.lange@saleshq.ru",
+      "email": "k.lange@sdelka.app",
       "role": "employee",
       "status": "invited"
     },
     {
       "id": "u6",
       "name": "Ольга Тимофеева",
-      "email": "o.timofeeva@saleshq.ru",
+      "email": "o.timofeeva@sdelka.app",
       "role": "employee",
       "status": "disabled"
     }

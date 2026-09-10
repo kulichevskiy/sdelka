@@ -57,7 +57,7 @@ export interface MainNavProps {
 export function MainNav({
   navigationItems,
   user,
-  productName = 'Sales HQ',
+  productName = 'Сделка',
   searchQuery = '',
   searchPlaceholder = 'Поиск по CRM',
   createLabel = 'Создать',

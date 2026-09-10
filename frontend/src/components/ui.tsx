@@ -124,7 +124,7 @@ export function Logo({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
       >
         S
       </span>
-      <span className={`${text} font-bold tracking-tight text-stone-900 dark:text-stone-100`}>Sales HQ</span>
+      <span className={`${text} font-bold tracking-tight text-stone-900 dark:text-stone-100`}>Сделка</span>
     </span>
   )
 }

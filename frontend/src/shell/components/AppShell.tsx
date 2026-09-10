@@ -42,7 +42,7 @@ export function AppShell({
   children,
   navigationItems,
   user,
-  productName = 'Sales HQ',
+  productName = 'Сделка',
   searchQuery = '',
   onSearchChange,
   onNavigate,

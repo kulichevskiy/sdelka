@@ -55,7 +55,7 @@ export function LandingPage() {
               Каждая сделка знает свой следующий шаг
             </h1>
             <p className="mt-5 max-w-lg text-base leading-relaxed text-stone-600 sm:text-lg dark:text-stone-400">
-              Sales HQ держит в порядке сделки, контакты и задачи команды. Без настроек на неделю: зарегистрировались, пригласили
+              «Сделка» держит в порядке воронку, контакты и задачи команды. Без настроек на неделю: зарегистрировались, пригласили
               коллег, работаете.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">

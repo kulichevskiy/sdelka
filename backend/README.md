@@ -1,4 +1,4 @@
-# Sales HQ — бэкенд
+# Сделка — бэкенд
 
 FastAPI + SQLAlchemy 2.0 (async, asyncpg) + Alembic + Pydantic v2. Контракт API — в
 `../docs/api-contract.md`, он первичен.
@@ -20,6 +20,12 @@ uv run uvicorn app.main:app --reload --port 8000        # DEBUG=true включ�
 Схема накатывается миграциями, поэтому тесты заодно проверяют Alembic.
 
 ```bash
+# вариант 1: dev-Postgres из docker-compose.dev.yml (localhost:5432), нужна база crm_test
+docker compose -f ../docker-compose.dev.yml up -d
+docker exec crm-dev-db-1 psql -U crm -d crm -c "create database crm_test"
+uv run pytest
+
+# вариант 2: отдельный контейнер
 docker run -d --name crm-test-pg -e POSTGRES_USER=crm -e POSTGRES_PASSWORD=crm \
   -e POSTGRES_DB=crm_test -p 5433:5432 postgres:16-alpine
 TEST_DATABASE_URL=postgresql+asyncpg://crm:crm@localhost:5433/crm_test uv run pytest
@@ -61,7 +67,7 @@ alembic/        env.py берёт URL из настроек приложения
 Места, где контракт молчал или упирался в реальность:
 
 - **Email глобально уникален** (один человек — одна организация). Поэтому демо-коллеги
-  получают адрес вида `d.volkov+demo-<8 символов id организации>@saleshq.ru`, а не просто
+  получают адрес вида `d.volkov+demo-<8 символов id организации>@sdelka.app`, а не просто
   `+demo`: иначе вторая организация не смогла бы загрузить демо.
 - **Демо в пустой воронке.** Если открытых стадий нет, все демо-сделки ложатся на
   закрывающую, и открытые получают исход `won` — на закрывающей стадии сделка без исхода

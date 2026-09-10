@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     smtp_port: int = 587
     smtp_user: str = ""
     smtp_password: str = ""
-    smtp_from: str = "Sales HQ <noreply@example.com>"
+    smtp_from: str = "Сделка <noreply@sdelka.app>"
 
     session_ttl_days: int = 30
     invite_ttl_days: int = 14

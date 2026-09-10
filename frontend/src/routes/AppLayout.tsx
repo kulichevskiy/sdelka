@@ -128,7 +128,7 @@ export function AppLayout({ me }: { me: Me }) {
       <AppShell
         navigationItems={navigationItems}
         user={{ name: me.user.name, role: roleLabel(me.user.role) }}
-        productName={me.org.name || 'Sales HQ'}
+        productName={me.org.name || 'Сделка'}
         searchQuery={search}
         onSearchChange={setSearch}
         onNavigate={(href) => navigate(href)}
