@@ -43,7 +43,7 @@ export function InvitePage() {
 
   function submit(event: FormEvent) {
     event.preventDefault()
-    acceptInvite.mutate({ token, name: name.trim(), password }, { onSuccess: () => navigate('/today', { replace: true }) })
+    acceptInvite.mutate({ token, name: name.trim(), password }, { onSuccess: () => navigate('/deals', { replace: true }) })
   }
 
   return (

@@ -21,7 +21,7 @@ import { SettingsPage } from '@/pages/SettingsPage'
 function GuestOnly() {
   const me = useMe()
   if (me.isPending) return <FullScreenLoader />
-  if (me.data) return <Navigate to="/today" replace />
+  if (me.data) return <Navigate to="/deals" replace />
   return <Outlet />
 }
 

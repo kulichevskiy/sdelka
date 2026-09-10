@@ -11,8 +11,9 @@ import { useTheme } from '@/lib/theme'
 import { AppShell } from '@/shell/components/AppShell'
 
 const sections = [
-  { label: 'Сегодня', href: '/today' },
+  // Сделки первыми: это стартовый экран после входа
   { label: 'Сделки', href: '/deals' },
+  { label: 'Сегодня', href: '/today' },
   { label: 'Контакты', href: '/contacts' },
 ]
 

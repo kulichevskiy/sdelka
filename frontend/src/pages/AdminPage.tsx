@@ -34,7 +34,7 @@ export function AdminPage() {
   const reasonMutations = useLossReasonMutations()
   const orgMutations = useOrgMutations()
 
-  if (!canAdmin(me.user.role)) return <Navigate to="/today" replace />
+  if (!canAdmin(me.user.role)) return <Navigate to="/deals" replace />
 
   const tabParam = searchParams.get('tab') as AdminTab | null
   const initialTab = tabParam && tabs.includes(tabParam) ? tabParam : undefined

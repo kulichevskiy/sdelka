@@ -52,7 +52,7 @@ export function RegisterPage() {
     event.preventDefault()
     register.mutate(
       { name: name.trim(), email: email.trim(), password, orgName: orgName.trim(), currency, pipelineTemplate: template },
-      { onSuccess: () => navigate('/today', { replace: true }) },
+      { onSuccess: () => navigate('/deals', { replace: true }) },
     )
   }
 

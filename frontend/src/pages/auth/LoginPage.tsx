@@ -11,7 +11,7 @@ export function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const from = (location.state as { from?: string } | null)?.from ?? '/today'
+  const from = (location.state as { from?: string } | null)?.from ?? '/deals'
 
   function submit(event: FormEvent) {
     event.preventDefault()
