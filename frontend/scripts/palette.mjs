@@ -8,7 +8,7 @@
  *   npm run palette -- 52489C --apply         # записать в src/index.css (@theme)
  *   npm run palette -- 52489C --preview       # HTML-превью в scripts/palette-preview.html
  *
- * Первый цвет — бренд (шаг 600), второй — нейтраль (шаг 200), остальные из
+ * Первый цвет — бренд (шаг 600), второй — тон нейтрали (по умолчанию тон бренда), остальные из
  * ссылки coolors выводятся как готовые акценты. Подсказки гармоний (дополнительный,
  * аналоговые, триада) печатаются ссылкой на coolors.co, чтобы покрутить их там.
  */
@@ -62,12 +62,17 @@ function scale(baseHex, baseStep = 600) {
   return result
 }
 
-/** Нейтраль: почти без насыщенности, шаг 200 — заданный цвет */
-function neutralScale(hex) {
-  const [h, s, l] = rgbToHsl(parseHex(hex))
-  const target = { 50: 97, 100: 95, 200: l, 300: 84, 400: 66, 500: 48, 600: 36, 700: 27, 800: 18, 900: 12, 950: 8 }
+/**
+ * Нейтраль от тона: серые с лёгким подтоном, плюс «белый» и «чёрный» как крайние
+ * оттенки того же тона. Без второго цвета берётся тон бренда.
+ */
+function neutralScale(hex, sat = 14) {
+  const [h] = rgbToHsl(parseHex(hex))
+  const target = { 50: 98, 100: 95.5, 200: 91, 300: 83, 400: 64, 500: 47, 600: 36, 700: 27, 800: 18, 900: 12, 950: 7 }
   const result = {}
-  for (const step of STEPS) result[step] = toHex(hslToRgb([h, Math.min(s, 6), target[step]]))
+  for (const step of STEPS) result[step] = toHex(hslToRgb([h, sat, target[step]]))
+  result.white = toHex(hslToRgb([h, 40, 99.2]))
+  result.black = toHex(hslToRgb([h, 40, 5]))
   return result
 }
 
@@ -96,7 +101,7 @@ if (!colors.length) {
 }
 const [brandHex, neutralHex, ...accents] = colors
 const brand = scale(brandHex)
-const neutral = neutralHex ? neutralScale(neutralHex) : null
+const neutral = neutralScale(neutralHex ?? brandHex)
 
 // ---------- вывод ----------
 const printScale = (name, sc) => {
@@ -104,7 +109,8 @@ const printScale = (name, sc) => {
   for (const step of STEPS) console.log(`  ${String(step).padStart(3)}  ${sc[step]}`)
 }
 printScale('brand', brand)
-if (neutral) printScale('stone (нейтраль)', neutral)
+printScale('stone (нейтраль)', neutral)
+console.log(`  white ${neutral.white}\n  black ${neutral.black}`)
 if (accents.length) console.log('\nАкценты из ссылки:', accents.map((a) => '#' + a).join(', '))
 
 console.log('\nПодсказки гармоний к бренду:')
@@ -122,7 +128,8 @@ if (flags.has('--apply')) {
   let css = readFileSync(cssPath, 'utf8')
   const block = (name, sc) => STEPS.map((s) => `  --color-${name}-${s}: ${sc[s]};`).join('\n')
   css = css.replace(/  --color-brand-50:[\s\S]*?--color-brand-950: #[0-9a-f]{6};/i, block('brand', brand))
-  if (neutral) css = css.replace(/  --color-stone-50:[\s\S]*?--color-stone-950: #[0-9a-f]{6};/i, block('stone', neutral))
+  css = css.replace(/  --color-white: #[0-9a-f]{6};\n  --color-black: #[0-9a-f]{6};/i, `  --color-white: ${neutral.white};\n  --color-black: ${neutral.black};`)
+  css = css.replace(/  --color-stone-50:[\s\S]*?--color-stone-950: #[0-9a-f]{6};/i, block('stone', neutral))
   writeFileSync(cssPath, css)
   console.log(`\nЗаписано в ${path.relative(process.cwd(), cssPath)}`)
 }
@@ -132,7 +139,7 @@ if (flags.has('--preview')) {
   const html = `<!doctype html><meta charset="utf-8"><title>Палитра</title>
 <style>body{font:14px system-ui;margin:24px;background:#fff;color:#111}.row{display:flex;gap:4px;margin-bottom:24px}.sw{flex:1;height:88px;border-radius:8px;display:flex;flex-direction:column;justify-content:flex-end;padding:8px;color:#fff;text-shadow:0 0 4px rgba(0,0,0,.6);font-size:11px}
 .demo{display:flex;gap:12px;align-items:center;margin-top:16px}.btn{background:${brand[600]};color:#fff;padding:10px 16px;border-radius:8px;border:0;font-weight:600}.btn2{background:${brand[50]};color:${brand[700]};padding:10px 16px;border-radius:8px}</style>
-${swatches('brand', brand)}${neutral ? swatches('stone', neutral) : ''}
+${swatches('brand', brand)}${swatches('stone', neutral)}
 <h2>Гармонии</h2><div class="row">${all.map((c) => `<div class="sw" style="background:${c}"><span>${c}</span></div>`).join('')}</div>
 <div class="demo"><button class="btn">Создать сделку</button><span class="btn2">Активный пункт</span><a href="${coolorsLink(all)}">Открыть в coolors</a></div>`
   const out = path.join(here, 'palette-preview.html')

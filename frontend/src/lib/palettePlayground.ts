@@ -9,7 +9,7 @@
  *   Space  — новый случайный бренд
  *   ←/→    — крутить тон текущего бренда на ±10°
  *   ↑/↓    — насыщенность ±8
- *   N      — новый оттенок нейтрали (лёгкий тёплый/холодный подтон)
+ *   N      — нейтраль с другим подтоном (по умолчанию серые, white и black следуют за тоном бренда)
  *   C      — скопировать блок @theme в буфер
  *   R      — сбросить к цветам из index.css
  *   Esc    — закрыть панель (режим остаётся включён до закрытия вкладки)
@@ -57,19 +57,25 @@ function brandScale([h, s, l]: Hsl): Record<number, string> {
   return out
 }
 
-function neutralScale(h: number, s: number): Record<number, string> {
-  const target: Record<number, number> = { 50: 97, 100: 95, 200: 92, 300: 84, 400: 66, 500: 48, 600: 36, 700: 27, 800: 18, 900: 12, 950: 8 }
-  const out: Record<number, string> = {}
+/** Нейтраль от тона бренда: серые с лёгким подтоном, «белый» и «чёрный» — крайние оттенки primary */
+function neutralScale(h: number, s: number): Record<number | 'white' | 'black', string> {
+  const target: Record<number, number> = { 50: 98, 100: 95.5, 200: 91, 300: 83, 400: 64, 500: 47, 600: 36, 700: 27, 800: 18, 900: 12, 950: 7 }
+  const out: Record<number | 'white' | 'black', string> = {} as never
   for (const step of STEPS) out[step] = hslToHex([h, s, target[step]])
+  out.white = hslToHex([h, Math.max(s, 30), 99.2])
+  out.black = hslToHex([h, Math.max(s, 30), 5])
   return out
 }
 
-function apply(name: string, scale: Record<number, string>) {
+function apply(name: string, scale: Record<number | string, string>) {
   for (const step of STEPS) document.documentElement.style.setProperty(`--color-${name}-${step}`, scale[step])
+  if (scale.white) document.documentElement.style.setProperty('--color-white', scale.white)
+  if (scale.black) document.documentElement.style.setProperty('--color-black', scale.black)
 }
 
 function reset() {
   for (const name of ['brand', 'stone']) for (const step of STEPS) document.documentElement.style.removeProperty(`--color-${name}-${step}`)
+  for (const name of ['white', 'black']) document.documentElement.style.removeProperty(`--color-${name}`)
 }
 
 export function installPalettePlayground() {
@@ -81,7 +87,9 @@ export function installPalettePlayground() {
 
   // Стартуем от текущего бренда, чтобы стрелки крутили его, а не случайный цвет
   let brand: Hsl = primaryParam || [247, 37, 45]
-  let neutral: [number, number] | null = neutralParam ? [neutralParam[0], Math.min(neutralParam[1], 6)] : null
+  // Без явной нейтрали серые следуют за тоном бренда (l — насыщенность 14)
+  let neutral: [number, number] | null = neutralParam ? [neutralParam[0], Math.min(neutralParam[1], 20)] : null
+  const neutralFor = (b: Hsl): [number, number] => neutral ?? [b[0], 14]
   let visible = true
 
   const panel = document.createElement('div')
@@ -105,17 +113,15 @@ export function installPalettePlayground() {
 
   function commit(note = '') {
     apply('brand', brandScale(brand))
-    if (neutral) apply('stone', neutralScale(neutral[0], neutral[1]))
+    apply('stone', neutralScale(...neutralFor(brand)))
     render(note)
   }
 
   function themeBlock() {
     const b = brandScale(brand)
     const lines = STEPS.map((s) => `  --color-brand-${s}: ${b[s]};`)
-    if (neutral) {
-      const n = neutralScale(neutral[0], neutral[1])
-      lines.push('', ...STEPS.map((s) => `  --color-stone-${s}: ${n[s]};`))
-    }
+    const n = neutralScale(...neutralFor(brand))
+    lines.push('', `  --color-white: ${n.white};`, `  --color-black: ${n.black};`, '', ...STEPS.map((s) => `  --color-stone-${s}: ${n[s]};`))
     return lines.join('\n')
   }
 
@@ -143,7 +149,7 @@ export function installPalettePlayground() {
         commit()
         break
       case 'KeyN':
-        neutral = [Math.floor(Math.random() * 360), 2 + Math.random() * 6]
+        neutral = [Math.floor(Math.random() * 360), 6 + Math.random() * 12]
         commit()
         break
       case 'KeyC':
