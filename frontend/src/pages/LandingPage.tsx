@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, Building2, CalendarCheck, KanbanSquare, Users } from 'lucide-react'
 import { FONT, Logo } from '@/components/ui'
+import { LiveBoardMock } from '@/components/LiveBoardMock'
 
 const features = [
   {
@@ -236,7 +237,7 @@ function HeroMock() {
               <div className="ml-auto h-4 w-14 rounded bg-brand-600 dark:bg-brand-400" />
             </div>
             <div className="mt-3">
-              <BoardMock />
+              <LiveBoardMock />
             </div>
           </div>
         </div>
