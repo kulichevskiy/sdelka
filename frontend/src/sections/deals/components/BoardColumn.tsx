@@ -32,7 +32,8 @@ export function BoardColumn({
       onDragLeave={onDragLeave}
       onDrop={onDrop}
       className={[
-        'flex w-[calc(100vw-2rem)] shrink-0 snap-center flex-col rounded-xl border transition-colors sm:w-72 sm:snap-align-none',
+        // max-h-full + min-h-0: колонка не выше доски, длинный список прокручивается внутри неё
+        'flex max-h-full min-h-0 w-[calc(100vw-2rem)] shrink-0 snap-center flex-col rounded-xl border transition-colors sm:w-72 sm:snap-align-none',
         isDropTarget
           ? 'border-stone-400 bg-stone-200/60 dark:border-stone-700 dark:bg-stone-800/60'
           : 'border-stone-200 bg-stone-100/60 dark:border-stone-800 dark:bg-stone-950/40',
@@ -50,7 +51,7 @@ export function BoardColumn({
         </span>
       </header>
 
-      <div className="flex min-h-24 flex-1 flex-col gap-2 p-2 pt-0">
+      <div className="flex min-h-24 flex-1 flex-col gap-2 overflow-y-auto p-2 pt-0">
         {isEmpty ? (
           <p className="m-2 rounded-lg border border-dashed border-stone-300 p-4 text-center text-xs text-stone-400 dark:border-stone-800 dark:text-stone-600">
             <span className="hidden sm:inline">Перетащите сделку сюда</span>
