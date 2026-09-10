@@ -1,0 +1,860 @@
+{
+  "today": "2026-08-29",
+  "users": [
+    {
+      "id": "u1",
+      "name": "Анна Соколова",
+      "email": "a.sokolova@saleshq.ru",
+      "role": "admin",
+      "status": "active"
+    },
+    {
+      "id": "u2",
+      "name": "Дмитрий Волков",
+      "email": "d.volkov@saleshq.ru",
+      "role": "employee",
+      "status": "active"
+    },
+    {
+      "id": "u3",
+      "name": "Марина Гусева",
+      "email": "m.guseva@saleshq.ru",
+      "role": "admin",
+      "status": "active"
+    },
+    {
+      "id": "u4",
+      "name": "Павел Рыбаков",
+      "email": "p.rybakov@saleshq.ru",
+      "role": "employee",
+      "status": "active"
+    },
+    {
+      "id": "u5",
+      "name": "Кирилл Ланге",
+      "email": "k.lange@saleshq.ru",
+      "role": "employee",
+      "status": "invited"
+    },
+    {
+      "id": "u6",
+      "name": "Ольга Тимофеева",
+      "email": "o.timofeeva@saleshq.ru",
+      "role": "employee",
+      "status": "disabled"
+    }
+  ],
+  "companies": [
+    {
+      "id": "c1",
+      "name": "ООО «Север»",
+      "industry": "Промышленное оборудование",
+      "website": "sever-group.ru",
+      "phone": "+7 812 445-19-03",
+      "ownerId": "u1",
+      "note": "Головной офис в Петербурге, два производственных участка в Ленобласти. Закупочный комитет собирается раз в две недели, решения по бюджетам свыше 300 тысяч проходят через финансового директора — сроки стоит закладывать с запасом."
+    },
+    {
+      "id": "c2",
+      "name": "Акме Трейдинг",
+      "industry": "Оптовая торговля",
+      "website": "acme-trade.ru",
+      "phone": "+7 495 220-77-41",
+      "ownerId": "u1",
+      "note": "Небольшая команда, решения принимаются быстро."
+    },
+    {
+      "id": "c3",
+      "name": "Горизонт Медиа",
+      "industry": "Реклама и медиа",
+      "website": "horizont-media.ru",
+      "phone": "+7 495 981-04-56",
+      "ownerId": "u2",
+      "note": "Агентство полного цикла, 40 человек."
+    },
+    {
+      "id": "c4",
+      "name": "Ветка Кофе",
+      "industry": "Общественное питание",
+      "website": "vetka.coffee",
+      "phone": "+7 921 330-88-12",
+      "ownerId": "u1",
+      "note": "Сеть из четырёх кофеен, растут."
+    },
+    {
+      "id": "c5",
+      "name": "Дельта Логистик",
+      "industry": "Логистика",
+      "website": "delta-log.ru",
+      "phone": "+7 812 700-45-90",
+      "ownerId": "u2",
+      "note": "Филиалы в пяти городах, длинный цикл согласований."
+    },
+    {
+      "id": "c6",
+      "name": "Смарт Ритейл",
+      "industry": "Розничная торговля",
+      "website": "smartretail.ru",
+      "phone": "+7 495 118-62-30",
+      "ownerId": "u4",
+      "note": "30 магазинов, пилот в трёх точках."
+    },
+    {
+      "id": "c7",
+      "name": "Пирс Студия",
+      "industry": "Дизайн",
+      "website": "pier.studio",
+      "phone": "+7 999 412-05-77",
+      "ownerId": "u1",
+      "note": "Клиент с прошлого года, лицензии продлены."
+    },
+    {
+      "id": "c8",
+      "name": "Юнион Фарм",
+      "industry": "Фармацевтика",
+      "website": "unionpharm.ru",
+      "phone": "+7 495 640-31-18",
+      "ownerId": "u2",
+      "note": "Ушли к конкуренту из-за интеграции с 1С, но контакт сохранён."
+    },
+    {
+      "id": "c9",
+      "name": "Мозаика Инжиниринг",
+      "industry": "Проектирование",
+      "website": "mosaica-eng.ru",
+      "phone": "+7 383 210-44-70",
+      "ownerId": "u1",
+      "note": "Сервисный отдел работает отдельно от продаж."
+    },
+    {
+      "id": "c10",
+      "name": "Лаборатория Тон",
+      "industry": "Лабораторные услуги",
+      "website": "lab-ton.ru",
+      "phone": "+7 495 505-12-88",
+      "ownerId": "u1",
+      "note": "Второй год с нами, подписка заканчивается осенью."
+    },
+    {
+      "id": "c11",
+      "name": "Тёплый Хлеб",
+      "industry": "Пекарни",
+      "website": "teplyhleb.ru",
+      "phone": "+7 903 771-25-16",
+      "ownerId": "u1",
+      "note": "Сеть пекарен, открывают новые точки каждый квартал."
+    },
+    {
+      "id": "c12",
+      "name": "Квартал Недвижимость",
+      "industry": "Недвижимость",
+      "website": "kvartal-re.ru",
+      "phone": "+7 812 339-60-04",
+      "ownerId": "u1",
+      "note": "Заявка с сайта, отдел аренды."
+    }
+  ],
+  "contacts": [
+    {
+      "id": "p1",
+      "name": "Игорь Панов",
+      "position": "Коммерческий директор",
+      "companyId": "c1",
+      "email": "i.panov@sever-group.ru",
+      "phone": "+7 911 204-56-71",
+      "ownerId": "u1"
+    },
+    {
+      "id": "p2",
+      "name": "Елена Штерн",
+      "position": "Руководитель закупок",
+      "companyId": "c2",
+      "email": "shtern@acme-trade.ru",
+      "phone": "+7 916 887-13-40",
+      "ownerId": "u1"
+    },
+    {
+      "id": "p3",
+      "name": "Тимур Асланов",
+      "position": "CEO",
+      "companyId": "c3",
+      "email": "t.aslanov@horizont-media.ru",
+      "phone": "+7 903 550-92-18",
+      "ownerId": "u2"
+    },
+    {
+      "id": "p4",
+      "name": "Ольга Кравец",
+      "position": "Владелец",
+      "companyId": "c4",
+      "email": "olga@vetka.coffee",
+      "phone": "+7 921 330-88-12",
+      "ownerId": "u1"
+    },
+    {
+      "id": "p5",
+      "name": "Сергей Дьяконов",
+      "position": "Операционный директор",
+      "companyId": "c5",
+      "email": "s.dyakonov@delta-log.ru",
+      "phone": "+7 921 715-60-22",
+      "ownerId": "u2"
+    },
+    {
+      "id": "p6",
+      "name": "Ника Белова",
+      "position": "Head of Retail",
+      "companyId": "c6",
+      "email": "n.belova@smartretail.ru",
+      "phone": "+7 985 302-44-19",
+      "ownerId": "u4"
+    },
+    {
+      "id": "p7",
+      "name": "Артём Гай",
+      "position": "Арт-директор",
+      "companyId": "c7",
+      "email": "artem@pier.studio",
+      "phone": "+7 999 412-05-77",
+      "ownerId": "u1"
+    },
+    {
+      "id": "p8",
+      "name": "Вера Лунц",
+      "position": "Директор по развитию",
+      "companyId": "c8",
+      "email": "v.lunts@unionpharm.ru",
+      "phone": "+7 916 044-27-83",
+      "ownerId": "u2"
+    },
+    {
+      "id": "p9",
+      "name": "Константин Реут",
+      "position": "Финансовый директор",
+      "companyId": "c1",
+      "email": "k.reut@sever-group.ru",
+      "phone": "+7 911 664-32-09",
+      "ownerId": "u1"
+    },
+    {
+      "id": "p10",
+      "name": "Дарья Мельник",
+      "position": "Руководитель отдела продаж",
+      "companyId": "c1",
+      "email": "d.melnik@sever-group.ru",
+      "phone": "+7 921 108-77-54",
+      "ownerId": "u1"
+    },
+    {
+      "id": "p11",
+      "name": "Роман Ковач",
+      "position": "Руководитель сервиса",
+      "companyId": "c9",
+      "email": "r.kovach@mosaica-eng.ru",
+      "phone": "+7 913 447-90-31",
+      "ownerId": "u1"
+    },
+    {
+      "id": "p12",
+      "name": "Инна Барсукова",
+      "position": "Директор",
+      "companyId": "c10",
+      "email": "i.barsukova@lab-ton.ru",
+      "phone": "+7 926 118-73-05",
+      "ownerId": "u1"
+    },
+    {
+      "id": "p13",
+      "name": "Дарья Крылова",
+      "position": "Операционный директор",
+      "companyId": "c11",
+      "email": "d.krylova@teplyhleb.ru",
+      "phone": "+7 903 771-25-16",
+      "ownerId": "u1"
+    },
+    {
+      "id": "p14",
+      "name": "Максим Ерш",
+      "position": "Руководитель отдела аренды",
+      "companyId": "c12",
+      "email": "m.ersh@kvartal-re.ru",
+      "phone": "+7 812 339-60-04",
+      "ownerId": "u1"
+    }
+  ],
+  "stages": [
+    {
+      "id": "st1",
+      "name": "Новая заявка",
+      "order": 1,
+      "isClosing": false
+    },
+    {
+      "id": "st2",
+      "name": "Квалификация",
+      "order": 2,
+      "isClosing": false
+    },
+    {
+      "id": "st3",
+      "name": "Предложение",
+      "order": 3,
+      "isClosing": false
+    },
+    {
+      "id": "st4",
+      "name": "Переговоры",
+      "order": 4,
+      "isClosing": false
+    },
+    {
+      "id": "st5",
+      "name": "Закрыто",
+      "order": 5,
+      "isClosing": true
+    }
+  ],
+  "deals": [
+    {
+      "id": "d1",
+      "title": "Внедрение CRM на 12 рабочих мест",
+      "companyId": "c1",
+      "contactId": "p1",
+      "ownerId": "u1",
+      "stageId": "st4",
+      "amount": 450000,
+      "currency": "RUB",
+      "expectedCloseDate": "2026-09-15",
+      "createdAt": "2026-07-02",
+      "outcome": null,
+      "lostReason": null,
+      "description": "Клиент переезжает с самописной базы в Excel. Ключевое требование — перенос истории за три года и обучение отдела продаж из 12 человек. Игорь согласовал бюджет с финансовым директором, но просит зафиксировать стоимость поддержки на первый год отдельной строкой в договоре."
+    },
+    {
+      "id": "d2",
+      "title": "Годовая подписка, 5 лицензий",
+      "companyId": "c2",
+      "contactId": "p2",
+      "ownerId": "u1",
+      "stageId": "st3",
+      "amount": 128500,
+      "currency": "RUB",
+      "expectedCloseDate": "2026-09-05",
+      "createdAt": "2026-08-01",
+      "outcome": null,
+      "lostReason": null,
+      "description": "Отправили коммерческое предложение, Елена взяла паузу до конца месяца."
+    },
+    {
+      "id": "d3",
+      "title": "Пилот на отдел из 3 человек",
+      "companyId": "c3",
+      "contactId": "p3",
+      "ownerId": "u2",
+      "stageId": "st2",
+      "amount": 96200,
+      "currency": "RUB",
+      "expectedCloseDate": "2026-09-30",
+      "createdAt": "2026-08-12",
+      "outcome": null,
+      "lostReason": null,
+      "description": "Тимур хочет сначала посмотреть, как команда приживётся в интерфейсе."
+    },
+    {
+      "id": "d4",
+      "title": "Замена таблиц на CRM",
+      "companyId": "c4",
+      "contactId": "p4",
+      "ownerId": "u1",
+      "stageId": "st1",
+      "amount": 42000,
+      "currency": "RUB",
+      "expectedCloseDate": "2026-10-10",
+      "createdAt": "2026-08-26",
+      "outcome": null,
+      "lostReason": null,
+      "description": "Заявка с сайта, пока ничего не обсуждали."
+    },
+    {
+      "id": "d5",
+      "title": "Расширение на филиалы",
+      "companyId": "c5",
+      "contactId": "p5",
+      "ownerId": "u2",
+      "stageId": "st4",
+      "amount": 780000,
+      "currency": "RUB",
+      "expectedCloseDate": "2026-09-08",
+      "createdAt": "2026-06-18",
+      "outcome": null,
+      "lostReason": null,
+      "description": "Договор на согласовании у юристов. Сергей просит добавить SLA по времени ответа поддержки."
+    },
+    {
+      "id": "d6",
+      "title": "Подключение 30 магазинов",
+      "companyId": "c6",
+      "contactId": "p6",
+      "ownerId": "u4",
+      "stageId": "st3",
+      "amount": 615000,
+      "currency": "RUB",
+      "expectedCloseDate": "2026-10-01",
+      "createdAt": "2026-07-21",
+      "outcome": null,
+      "lostReason": null,
+      "description": "Ника собирает обратную связь от управляющих в трёх пилотных магазинах."
+    },
+    {
+      "id": "d7",
+      "title": "Лицензии для студии",
+      "companyId": "c7",
+      "contactId": "p7",
+      "ownerId": "u1",
+      "stageId": "st5",
+      "amount": 74000,
+      "currency": "RUB",
+      "expectedCloseDate": "2026-08-20",
+      "createdAt": "2026-06-30",
+      "outcome": "won",
+      "lostReason": null,
+      "description": "Закрыли за две встречи, Артём подписал счёт в тот же день."
+    },
+    {
+      "id": "d8",
+      "title": "CRM для отдела продаж",
+      "companyId": "c8",
+      "contactId": "p8",
+      "ownerId": "u2",
+      "stageId": "st5",
+      "amount": 310000,
+      "currency": "RUB",
+      "expectedCloseDate": "2026-08-14",
+      "createdAt": "2026-05-19",
+      "outcome": "lost",
+      "lostReason": "Выбрали решение с готовой интеграцией 1С",
+      "description": "Дошли до переговоров, но упёрлись в требование двусторонней синхронизации с 1С."
+    },
+    {
+      "id": "d9",
+      "title": "Доступ для отдела сервиса",
+      "companyId": "c9",
+      "contactId": "p11",
+      "ownerId": "u1",
+      "stageId": "st2",
+      "amount": 187000,
+      "currency": "RUB",
+      "expectedCloseDate": "2026-09-25",
+      "createdAt": "2026-08-10",
+      "outcome": null,
+      "lostReason": null,
+      "description": "Сервисный отдел хочет вести заявки отдельно от продаж."
+    },
+    {
+      "id": "d10",
+      "title": "Продление на второй год",
+      "companyId": "c10",
+      "contactId": "p12",
+      "ownerId": "u1",
+      "stageId": "st4",
+      "amount": 96000,
+      "currency": "RUB",
+      "expectedCloseDate": "2026-09-01",
+      "createdAt": "2026-07-14",
+      "outcome": null,
+      "lostReason": null,
+      "description": "Подписка заканчивается, Инна просила счёт заранее."
+    },
+    {
+      "id": "d11",
+      "title": "CRM для сети пекарен",
+      "companyId": "c11",
+      "contactId": "p13",
+      "ownerId": "u1",
+      "stageId": "st3",
+      "amount": 254000,
+      "currency": "RUB",
+      "expectedCloseDate": "2026-09-20",
+      "createdAt": "2026-07-28",
+      "outcome": null,
+      "lostReason": null,
+      "description": "Открывают точки каждый квартал, нужен понятный учёт заявок."
+    },
+    {
+      "id": "d12",
+      "title": "Пилот для отдела аренды",
+      "companyId": "c12",
+      "contactId": "p14",
+      "ownerId": "u1",
+      "stageId": "st1",
+      "amount": 68000,
+      "currency": "RUB",
+      "expectedCloseDate": "2026-10-15",
+      "createdAt": "2026-08-27",
+      "outcome": null,
+      "lostReason": null,
+      "description": "Заявка с сайта, отдел аренды из пяти человек."
+    },
+    {
+      "id": "d13",
+      "title": "Обучение отдела продаж",
+      "companyId": "c1",
+      "contactId": "p10",
+      "ownerId": "u1",
+      "stageId": "st2",
+      "amount": 85000,
+      "currency": "RUB",
+      "expectedCloseDate": "2026-10-05",
+      "createdAt": "2026-08-20",
+      "outcome": null,
+      "lostReason": null,
+      "description": "Дарья ведёт обучение внутри отдела, нужны материалы и два выезда."
+    }
+  ],
+  "tasks": [
+    {
+      "id": "t1",
+      "dealId": "d1",
+      "title": "Отправить финальный договор с приложением по поддержке",
+      "dueDate": "2026-08-27",
+      "isDone": false,
+      "assigneeId": "u1"
+    },
+    {
+      "id": "t2",
+      "dealId": "d1",
+      "title": "Согласовать дату обучения отдела",
+      "dueDate": "2026-08-29",
+      "isDone": false,
+      "assigneeId": "u1"
+    },
+    {
+      "id": "t3",
+      "dealId": "d1",
+      "title": "Показать демо переноса данных",
+      "dueDate": "2026-08-14",
+      "isDone": true,
+      "assigneeId": "u1"
+    },
+    {
+      "id": "t4",
+      "dealId": "d2",
+      "title": "Позвонить Елене, уточнить решение по КП",
+      "dueDate": "2026-08-29",
+      "isDone": false,
+      "assigneeId": "u1"
+    },
+    {
+      "id": "t5",
+      "dealId": "d3",
+      "title": "Собрать требования по пилоту",
+      "dueDate": "2026-09-02",
+      "isDone": false,
+      "assigneeId": "u2"
+    },
+    {
+      "id": "t6",
+      "dealId": "d5",
+      "title": "Получить правки юристов по SLA",
+      "dueDate": "2026-08-25",
+      "isDone": false,
+      "assigneeId": "u2"
+    },
+    {
+      "id": "t7",
+      "dealId": "d6",
+      "title": "Встреча с управляющими пилотных магазинов",
+      "dueDate": "2026-09-04",
+      "isDone": false,
+      "assigneeId": "u4"
+    },
+    {
+      "id": "t8",
+      "dealId": "d7",
+      "title": "Выставить счёт",
+      "dueDate": "2026-08-18",
+      "isDone": true,
+      "assigneeId": "u1"
+    },
+    {
+      "id": "t9",
+      "dealId": "d10",
+      "title": "Напомнить о продлении и прислать счёт",
+      "dueDate": "2026-08-21",
+      "isDone": false,
+      "assigneeId": "u1"
+    },
+    {
+      "id": "t10",
+      "dealId": "d11",
+      "title": "Уточнить у Дарьи, сколько точек подключаем на старте, и пересобрать смету под это количество",
+      "dueDate": "2026-08-28",
+      "isDone": false,
+      "assigneeId": "u1"
+    },
+    {
+      "id": "t11",
+      "dealId": "d9",
+      "title": "Собрать требования сервисного отдела",
+      "dueDate": "2026-08-29",
+      "isDone": false,
+      "assigneeId": "u1"
+    },
+    {
+      "id": "t12",
+      "dealId": "d11",
+      "title": "Отправить кейс похожей сети",
+      "dueDate": "2026-09-02",
+      "isDone": false,
+      "assigneeId": "u1"
+    },
+    {
+      "id": "t13",
+      "dealId": "d10",
+      "title": "Созвон по итогам года",
+      "dueDate": "2026-09-04",
+      "isDone": false,
+      "assigneeId": "u1"
+    },
+    {
+      "id": "t14",
+      "dealId": "d2",
+      "title": "Выслать КП на годовую подписку",
+      "dueDate": "2026-08-15",
+      "isDone": true,
+      "assigneeId": "u1"
+    }
+  ],
+  "activities": [
+    {
+      "id": "a1",
+      "companyId": "c1",
+      "contactId": "p1",
+      "dealId": "d1",
+      "type": "meeting",
+      "authorId": "u1",
+      "date": "2026-08-21",
+      "note": "Встреча с Игорем и финансовым директором. Бюджет согласован, обсуждали условия поддержки."
+    },
+    {
+      "id": "a2",
+      "companyId": "c1",
+      "contactId": "p1",
+      "dealId": "d1",
+      "type": "email",
+      "authorId": "u1",
+      "date": "2026-08-18",
+      "note": "Отправила смету с тремя вариантами пакета поддержки."
+    },
+    {
+      "id": "a3",
+      "companyId": "c1",
+      "contactId": "p1",
+      "dealId": "d1",
+      "type": "call",
+      "authorId": "u1",
+      "date": "2026-08-11",
+      "note": "Созвон 20 минут: подтвердили объём переноса истории."
+    },
+    {
+      "id": "a4",
+      "companyId": "c1",
+      "contactId": "p9",
+      "dealId": null,
+      "type": "call",
+      "authorId": "u1",
+      "date": "2026-08-20",
+      "note": "Константин уточнял порядок оплаты: просит разбить на два платежа."
+    },
+    {
+      "id": "a5",
+      "companyId": "c1",
+      "contactId": "p10",
+      "dealId": "d13",
+      "type": "note",
+      "authorId": "u1",
+      "date": "2026-08-05",
+      "note": "Дарья будет вести обучение внутри отдела, ей нужны материалы заранее."
+    },
+    {
+      "id": "a6",
+      "companyId": "c2",
+      "contactId": "p2",
+      "dealId": "d2",
+      "type": "email",
+      "authorId": "u1",
+      "date": "2026-08-15",
+      "note": "Выслала КП на годовую подписку."
+    },
+    {
+      "id": "a7",
+      "companyId": "c3",
+      "contactId": "p3",
+      "dealId": "d3",
+      "type": "call",
+      "authorId": "u2",
+      "date": "2026-08-13",
+      "note": "Первый разговор с Тимуром, договорились о пилоте."
+    },
+    {
+      "id": "a8",
+      "companyId": "c5",
+      "contactId": "p5",
+      "dealId": "d5",
+      "type": "note",
+      "authorId": "u2",
+      "date": "2026-08-22",
+      "note": "Юристы обещали вернуться с правками к концу недели."
+    },
+    {
+      "id": "a9",
+      "companyId": "c6",
+      "contactId": "p6",
+      "dealId": "d6",
+      "type": "meeting",
+      "authorId": "u4",
+      "date": "2026-08-19",
+      "note": "Демо для Ники и двух управляющих."
+    },
+    {
+      "id": "a10",
+      "companyId": "c8",
+      "contactId": "p8",
+      "dealId": "d8",
+      "type": "call",
+      "authorId": "u2",
+      "date": "2026-08-14",
+      "note": "Вера сообщила, что выбрали другого поставщика."
+    },
+    {
+      "id": "a11",
+      "companyId": "c7",
+      "contactId": "p7",
+      "dealId": "d7",
+      "type": "email",
+      "authorId": "u1",
+      "date": "2026-05-12",
+      "note": "Отправила счёт на продление лицензий."
+    },
+    {
+      "id": "a12",
+      "companyId": "c10",
+      "contactId": "p12",
+      "dealId": "d10",
+      "type": "call",
+      "authorId": "u1",
+      "date": "2026-08-06",
+      "note": "Инна подтвердила намерение продлить, ждёт счёт."
+    },
+    {
+      "id": "a13",
+      "companyId": "c11",
+      "contactId": "p13",
+      "dealId": "d11",
+      "type": "meeting",
+      "authorId": "u1",
+      "date": "2026-08-18",
+      "note": "Показала интерфейс на планшете прямо в пекарне."
+    }
+  ],
+  "customFields": [
+    {
+      "id": "f1",
+      "name": "Источник заявки",
+      "entity": "deal",
+      "type": "select",
+      "isRequired": true,
+      "options": [
+        "Сайт",
+        "Рекомендация",
+        "Холодный звонок",
+        "Выставка",
+        "Реклама"
+      ]
+    },
+    {
+      "id": "f2",
+      "name": "Вероятность закрытия",
+      "entity": "deal",
+      "type": "number",
+      "isRequired": false,
+      "options": []
+    },
+    {
+      "id": "f3",
+      "name": "Дата пилота",
+      "entity": "deal",
+      "type": "date",
+      "isRequired": false,
+      "options": []
+    },
+    {
+      "id": "f4",
+      "name": "Мессенджер для связи",
+      "entity": "contact",
+      "type": "select",
+      "isRequired": false,
+      "options": [
+        "Telegram",
+        "WhatsApp",
+        "Только почта"
+      ]
+    },
+    {
+      "id": "f5",
+      "name": "День рождения",
+      "entity": "contact",
+      "type": "date",
+      "isRequired": false,
+      "options": []
+    },
+    {
+      "id": "f6",
+      "name": "ИНН",
+      "entity": "company",
+      "type": "text",
+      "isRequired": true,
+      "options": []
+    },
+    {
+      "id": "f7",
+      "name": "Численность сотрудников",
+      "entity": "company",
+      "type": "number",
+      "isRequired": false,
+      "options": []
+    }
+  ],
+  "lossReasons": [
+    {
+      "id": "lr1",
+      "name": "Выбрали конкурента",
+      "usageCount": 12
+    },
+    {
+      "id": "lr2",
+      "name": "Не хватило бюджета",
+      "usageCount": 8
+    },
+    {
+      "id": "lr3",
+      "name": "Нет нужной интеграции",
+      "usageCount": 5
+    },
+    {
+      "id": "lr4",
+      "name": "Отложили решение на следующий год",
+      "usageCount": 3
+    },
+    {
+      "id": "lr5",
+      "name": "Пропали, перестали отвечать на письма и звонки",
+      "usageCount": 7
+    },
+    {
+      "id": "lr6",
+      "name": "Не подошли условия поддержки",
+      "usageCount": 0
+    }
+  ]
+}
