@@ -28,7 +28,8 @@ const dateWithYear = new Intl.DateTimeFormat('ru-RU', {
   year: 'numeric',
 })
 
-export function formatDate(isoDate: string, today: string): string {
+export function formatDate(isoDate: string | null | undefined, today: string): string {
+  if (!isoDate) return '—'
   const date = new Date(`${isoDate}T00:00:00`)
   const sameYear = isoDate.slice(0, 4) === today.slice(0, 4)
   return sameYear ? shortDate.format(date) : dateWithYear.format(date)

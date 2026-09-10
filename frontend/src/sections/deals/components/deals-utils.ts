@@ -60,7 +60,8 @@ export function formatMoney(amount: number, currency: string): string {
 
 const dateFormatter = new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'short' })
 
-export function formatDate(isoDate: string): string {
+export function formatDate(isoDate: string | null | undefined): string {
+  if (!isoDate) return '—'
   return dateFormatter.format(new Date(`${isoDate}T00:00:00`))
 }
 

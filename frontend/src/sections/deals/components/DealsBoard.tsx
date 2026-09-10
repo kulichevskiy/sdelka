@@ -79,7 +79,7 @@ export function DealsBoard({
     const factor = sortDirection === 'asc' ? 1 : -1
     return [...visibleDeals].sort((a, b) => {
       if (sortField === 'amount') return (a.amount - b.amount) * factor
-      return a.expectedCloseDate.localeCompare(b.expectedCloseDate) * factor
+      return (a.expectedCloseDate ?? "").localeCompare(b.expectedCloseDate ?? "") * factor
     })
   }, [visibleDeals, sortField, sortDirection])
 

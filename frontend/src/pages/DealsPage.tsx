@@ -95,7 +95,12 @@ export function DealsPage() {
       onUpdateDeal={(id, patch) =>
         updateDeal.mutate({
           id,
-          patch: { ...patch, expectedCloseDate: patch.expectedCloseDate === '' ? null : patch.expectedCloseDate },
+          // Пустая дата в секциях — '', в API — null. Ключ добавляем только если он был в патче,
+          // иначе оптимистичное обновление затирает дату undefined.
+          patch:
+            'expectedCloseDate' in patch
+              ? { ...patch, expectedCloseDate: patch.expectedCloseDate || null }
+              : patch,
         })
       }
       onAddTask={(dealId, draft) => createTask.mutate({ dealId, ...draft })}

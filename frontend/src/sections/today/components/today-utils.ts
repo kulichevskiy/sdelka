@@ -18,7 +18,8 @@ export function formatMoney(amount: number, currency: string): string {
 const shortDate = new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'short' })
 const longDate = new Intl.DateTimeFormat('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' })
 
-export function formatShortDate(isoDate: string): string {
+export function formatShortDate(isoDate: string | null | undefined): string {
+  if (!isoDate) return '—'
   return shortDate.format(new Date(`${isoDate}T00:00:00`))
 }
 
