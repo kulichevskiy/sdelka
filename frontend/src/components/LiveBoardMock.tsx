@@ -15,7 +15,7 @@ const MAX_ROWS = 3
 const CARD_H = 56
 const GAP = 6
 const HEADER_H = 18
-const TICK_MS = 1700
+const TICK_MS = 1100
 
 type Phase = 'enter' | 'idle' | 'exit'
 interface Card {
@@ -83,7 +83,7 @@ export function LiveBoardMock() {
       return () => cancelAnimationFrame(raf)
     }
     if (cards.some((c) => c.phase === 'exit')) {
-      const timer = window.setTimeout(() => setCards((current) => current.filter((c) => c.phase !== 'exit')), 600)
+      const timer = window.setTimeout(() => setCards((current) => current.filter((c) => c.phase !== 'exit')), 450)
       return () => window.clearTimeout(timer)
     }
   }, [cards])
@@ -120,7 +120,7 @@ export function LiveBoardMock() {
             key={card.id}
             className={[
               'absolute rounded-md border bg-white p-2 dark:bg-stone-900',
-              'transition-[left,top,opacity,transform,border-color] duration-[650ms] ease-[cubic-bezier(.22,1,.36,1)]',
+              'transition-[left,top,opacity,transform,border-color] duration-[500ms] ease-[cubic-bezier(.22,1,.36,1)]',
               card.overdue && !isLast ? 'border-red-200 dark:border-red-900' : 'border-stone-200 dark:border-stone-800',
               isLast ? 'opacity-60' : '',
             ].join(' ')}
@@ -132,7 +132,7 @@ export function LiveBoardMock() {
               height: CARD_H,
               opacity: hidden ? 0 : undefined,
               transform: card.phase === 'enter' ? 'translateY(-10px) scale(.92)' : card.phase === 'exit' ? 'scale(.85)' : undefined,
-              transitionDuration: card.phase === 'exit' ? '550ms' : undefined,
+              transitionDuration: card.phase === 'exit' ? '420ms' : undefined,
             }}
           >
             <span className="block h-1.5 w-3/4 rounded-full bg-stone-800 dark:bg-stone-200" />
