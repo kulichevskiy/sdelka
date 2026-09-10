@@ -59,7 +59,12 @@ open http://localhost:8080
 Почта необязательна: без `SMTP_HOST` ссылки приглашений и сброса пароля админ
 копирует прямо из интерфейса. С SMTP они дополнительно уходят письмом.
 
-**Обновление:** `git pull && docker compose up -d --build`.
+**CI/CD.** На каждый push в `main` GitHub Actions (`.github/workflows/deploy.yml`)
+прогоняет pytest, ruff, tsc и сборку фронта, затем по SSH делает на сервере
+`git reset --hard origin/main && docker compose up -d --build` и проверяет `/api/health`.
+Секреты репозитория: `SSH_HOST`, `SSH_PRIVATE_KEY`, `SSH_KNOWN_HOSTS`. Сервер читает
+репозиторий через deploy key (read-only), код лежит в `/opt/sdelka`.
+Ручное обновление: `cd /opt/sdelka && git pull && docker compose up -d --build`.
 
 **Бэкап БД** (поставьте в cron, каталог выгружайте в S3 или другое хранилище):
 ```bash
