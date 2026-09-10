@@ -7,22 +7,22 @@ const features = [
   {
     icon: CalendarCheck,
     title: 'Рабочий стол на сегодня',
-    text: 'Просроченное, дела на сегодня и сделки без следующего шага — в одном списке. Открыли утром и знаете, с чего начать.',
+    text: 'Просроченное, дела на сегодня и сделки без следующего шага — в одном списке. Открыли утром и за 30 секунд знаете, с чего начать.',
   },
   {
     icon: KanbanSquare,
     title: 'Канбан сделок',
-    text: 'Стадии под ваш процесс, перетаскивание карточек, суммы по колонкам. Закрытие с исходом и причиной проигрыша.',
+    text: 'Стадии под ваш процесс, перетаскивание карточек, сумма по каждой колонке. Сделка закрывается с исходом и причиной проигрыша — потом видно, где теряете клиентов.',
   },
   {
     icon: Building2,
     title: 'Единая история клиента',
-    text: 'Компания, люди в ней, сделки и все звонки, письма и встречи — на одной карточке. Ничего не теряется при передаче.',
+    text: 'Компания, люди в ней, сделки, звонки, письма и встречи — на одной карточке. Передали клиента коллеге — он читает всю историю, а не пересказ.',
   },
   {
     icon: Users,
     title: 'Команда и роли',
-    text: 'Приглашайте коллег по ссылке. Владелец, админы и менеджеры: кто настраивает воронку, кто ведёт сделки.',
+    text: 'Коллега подключается по одной ссылке. Три роли: владелец и админы настраивают воронку и поля, менеджеры ведут сделки.',
   },
 ]
 
@@ -50,13 +50,13 @@ export function LandingPage() {
         {/* Hero */}
         <section className="mx-auto grid w-full max-w-6xl items-center gap-10 px-4 pt-10 pb-16 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:pt-16 lg:pb-24">
           <div>
-            <p className="text-[11px] font-semibold tracking-wider text-stone-500 uppercase dark:text-stone-400">CRM для небольших отделов продаж</p>
+            <p className="text-[11px] font-semibold tracking-wider text-stone-500 uppercase dark:text-stone-400">CRM для отделов продаж из 2–15 человек</p>
             <h1 className="mt-3 text-4xl leading-[1.05] font-black tracking-tight sm:text-5xl lg:text-6xl">
               Каждая сделка знает свой следующий шаг
             </h1>
             <p className="mt-5 max-w-lg text-base leading-relaxed text-stone-600 sm:text-lg dark:text-stone-400">
-              «Сделка» держит в порядке воронку, контакты и задачи команды. Без настроек на неделю: зарегистрировались, пригласили
-              коллег, работаете.
+              Воронка, контакты и задачи команды в одном месте. Запуск занимает 5 минут: зарегистрировались, пригласили
+              коллег, завели первую сделку.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/register" className={primaryButton}>
@@ -67,7 +67,7 @@ export function LandingPage() {
                 Войти
               </Link>
             </div>
-            <p className="mt-4 text-xs text-stone-400 dark:text-stone-500">Учебный проект с открытым кодом. Данные — ваши, сервер — ваш.</p>
+            <p className="mt-4 text-xs text-stone-400 dark:text-stone-500">Бесплатно. Регистрация без карты: только почта и пароль.</p>
           </div>
 
           <HeroMock />
@@ -93,17 +93,17 @@ export function LandingPage() {
           <div className="max-w-2xl">
             <h2 className="text-3xl font-black tracking-tight sm:text-4xl">Как это выглядит</h2>
             <p className="mt-3 text-base text-stone-600 dark:text-stone-400">
-              Три раздела, которые нужны каждый день. Никаких отчётов ради отчётов.
+              Три раздела, в которых менеджер живёт каждый день. Никаких отчётов ради отчётов.
             </p>
           </div>
           <div className="mt-10 grid gap-6 lg:grid-cols-3">
-            <ShowcaseCard title="Сегодня" caption="Личный список: что просрочено, что на сегодня, где нет следующего шага.">
+            <ShowcaseCard title="Сегодня" caption="Личный список на день: что просрочено, что на сегодня, у каких сделок нет следующего шага.">
               <TodayMock />
             </ShowcaseCard>
-            <ShowcaseCard title="Сделки" caption="Канбан по вашим стадиям. Красная рамка — задача просрочена.">
+            <ShowcaseCard title="Сделки" caption="Канбан по вашим стадиям с суммой в каждой колонке. Красная рамка — задача просрочена.">
               <BoardMock compact />
             </ShowcaseCard>
-            <ShowcaseCard title="Контакты" caption="Люди и компании с историей общения и связанными сделками.">
+            <ShowcaseCard title="Контакты" caption="Люди и компании: история общения и связанные сделки на одной карточке.">
               <ContactsMock />
             </ShowcaseCard>
           </div>
@@ -113,9 +113,9 @@ export function LandingPage() {
         <section className="border-t border-stone-200 bg-white dark:border-stone-800 dark:bg-stone-950">
           <div className="mx-auto flex w-full max-w-6xl flex-col items-start gap-6 px-4 py-16 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <h2 className="text-2xl font-black tracking-tight sm:text-3xl">Первая сделка через минуту</h2>
+              <h2 className="text-2xl font-black tracking-tight sm:text-3xl">Первая сделка через 2 минуты</h2>
               <p className="mt-2 text-base text-stone-600 dark:text-stone-400">
-                Регистрация, название организации, валюта — и вы на рабочем столе. Демо-данные подскажут, как всё устроено.
+                Два шага: почта и пароль, затем название организации и валюта — и вы на рабочем столе. Кнопка «Заполнить демо-данными» покажет воронку на 13 сделках, которые потом удаляются одним кликом.
               </p>
             </div>
             <Link to="/register" className={`${primaryButton} shrink-0`}>
@@ -128,7 +128,7 @@ export function LandingPage() {
 
       <footer className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-8 text-xs text-stone-400 sm:px-6 dark:text-stone-500">
         <Logo size="sm" />
-        <span>FastAPI · React · PostgreSQL · Docker</span>
+        <span>© 2026 Сделка · sdelka.app</span>
       </footer>
     </div>
   )
