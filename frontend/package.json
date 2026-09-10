@@ -9,7 +9,8 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "gen:api": "openapi-typescript http://localhost:8000/api/openapi.json -o src/api/schema.d.ts",
-    "palette": "node scripts/palette.mjs"
+    "palette": "node scripts/palette.mjs",
+    "og": "node scripts/og-image.mjs"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.0",
@@ -25,6 +26,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
     "openapi-typescript": "^7.9.0",
+    "playwright-core": "^1.63.0",
     "tailwindcss": "^4.1.17",
     "typescript": "~5.9.3",
     "vite": "^7.1.13"
