@@ -16,6 +16,7 @@ import { DealsPage } from '@/pages/DealsPage'
 import { ContactsPage } from '@/pages/ContactsPage'
 import { AdminPage } from '@/pages/AdminPage'
 import { SettingsPage } from '@/pages/SettingsPage'
+import { trackPageView } from './lib/metrika'
 
 /** Гостевые страницы: залогиненного уводим в приложение */
 function GuestOnly() {
@@ -37,6 +38,12 @@ function RequireAuth() {
 export function App() {
   const navigate = useNavigate()
   const client = useQueryClient()
+  const location = useLocation()
+
+  // Метрика: просмотр страницы при каждой смене маршрута (первый hit шлёт init в index.html)
+  useEffect(() => {
+    trackPageView(location.pathname + location.search)
+  }, [location.pathname, location.search])
 
   // 401 посреди работы (сессия истекла, доступ отключили) — сбрасываем кэш и уходим на вход
   useEffect(() => {
