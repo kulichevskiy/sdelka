@@ -1,6 +1,10 @@
 # SITE_ADDRESS вычисляется в docker-entrypoint.sh: ":80" без домена, иначе домен с авто-HTTPS
 {$SITE_ADDRESS} {
 	encode zstd gzip
+	log {
+		output stdout
+		format json
+	}
 
 	handle /api/* {
 		reverse_proxy api:8000
