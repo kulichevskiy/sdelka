@@ -135,7 +135,7 @@ export function ContactsPage() {
   )
 }
 
-/** Создание контакта или компании: минимум полей, остальное — в панели */
+/** Создание контакта или компании: контактные данные спрашиваем сразу, иначе карточка остаётся пустой */
 function CreateDialog({
   kind,
   companies,
@@ -151,6 +151,9 @@ function CreateDialog({
   const createCompany = useCreateCompany()
   const [name, setName] = useState('')
   const [position, setPosition] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [industry, setIndustry] = useState('')
   const [companyId, setCompanyId] = useState(companies[0]?.id ?? '__new__')
   const [newCompany, setNewCompany] = useState('')
 
@@ -163,7 +166,7 @@ function CreateDialog({
   async function submit() {
     if (!canSubmit || pending) return
     if (!isContact) {
-      await createCompany.mutateAsync({ name: name.trim() })
+      await createCompany.mutateAsync({ name: name.trim(), industry: industry.trim(), phone: phone.trim() })
       return onCreated()
     }
     let targetCompanyId = companyId
@@ -171,7 +174,13 @@ function CreateDialog({
       const company = await createCompany.mutateAsync({ name: newCompany.trim() })
       targetCompanyId = company.id
     }
-    await createContact.mutateAsync({ name: name.trim(), companyId: targetCompanyId, position: position.trim() })
+    await createContact.mutateAsync({
+      name: name.trim(),
+      companyId: targetCompanyId,
+      position: position.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+    })
     onCreated()
   }
 
@@ -209,6 +218,10 @@ function CreateDialog({
           {isContact && (
             <>
               <Field label="Должность" value={position} onChange={(event) => setPosition(event.target.value)} placeholder="Коммерческий директор" />
+              <div className="grid gap-3 sm:grid-cols-2">
+                <Field label="Почта" type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="i.panov@sever.ru" />
+                <Field label="Телефон" type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} onKeyDown={(event) => event.key === 'Enter' && submit()} placeholder="+7 911 000-00-00" />
+              </div>
               <div>
                 <span className="text-[11px] font-semibold tracking-wider text-stone-400 uppercase dark:text-stone-500">Компания</span>
                 <Select
@@ -226,6 +239,12 @@ function CreateDialog({
                 <Field label="Название компании" value={newCompany} onChange={(event) => setNewCompany(event.target.value)} onKeyDown={(event) => event.key === 'Enter' && submit()} />
               )}
             </>
+          )}
+          {!isContact && (
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Field label="Отрасль" value={industry} onChange={(event) => setIndustry(event.target.value)} placeholder="Оптовая торговля" />
+              <Field label="Телефон" type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} onKeyDown={(event) => event.key === 'Enter' && submit()} placeholder="+7 495 000-00-00" />
+            </div>
           )}
           {error && <Alert>{error.message}</Alert>}
         </div>

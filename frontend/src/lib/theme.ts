@@ -10,7 +10,8 @@ export function readTheme(): Theme {
   } catch {
     // приватный режим
   }
-  return 'system'
+  // По умолчанию светлая: продукт спроектирован в светлой палитре, тёмная — осознанный выбор в профиле
+  return 'light'
 }
 
 /** Ставит .dark на html и color-scheme — Tailwind-варианты dark: работают от класса */

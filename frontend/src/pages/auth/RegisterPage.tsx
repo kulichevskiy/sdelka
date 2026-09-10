@@ -66,6 +66,7 @@ export function RegisterPage() {
 
   return (
     <AuthLayout
+      width={step === 2 ? 'lg' : 'sm'}
       title={step === 1 ? 'Создать аккаунт' : 'Ваша организация'}
       subtitle={steps}
       footer={
@@ -125,7 +126,7 @@ export function RegisterPage() {
 
           <div>
             <span className={labelClass}>Воронка продаж</span>
-            <div className="mt-1 flex flex-col gap-2">
+            <div className="mt-1 grid gap-2 sm:grid-cols-2">
               {templates.map((item) => {
                 const active = template === item.value
                 return (
@@ -168,11 +169,11 @@ export function RegisterPage() {
 
           {register.error && <Alert>{register.error.message}</Alert>}
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 sm:justify-end">
             <Button variant="secondary" onClick={() => setStep(1)} className="shrink-0">
               Назад
             </Button>
-            <Button type="submit" loading={register.isPending} className="flex-1" disabled={!orgName.trim()}>
+            <Button type="submit" loading={register.isPending} className="flex-1 sm:flex-none sm:px-6" disabled={!orgName.trim()}>
               Создать организацию
             </Button>
           </div>
