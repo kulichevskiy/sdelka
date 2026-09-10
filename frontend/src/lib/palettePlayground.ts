@@ -2,6 +2,7 @@
  * Живой подбор палитры прямо в приложении.
  *
  * Включается в dev всегда, в проде — параметром `?palette` (запоминается на вкладку).
+ * `?primary=52489C` сразу подставляет заданный бренд (и включает режим), `?neutral=EBEBEB` — нейтраль.
  * Tailwind 4 генерирует утилиты через var(--color-brand-*), поэтому достаточно
  * переписать переменные на <html>, и весь интерфейс перекрашивается без пересборки.
  *
@@ -22,6 +23,18 @@ const LIGHTNESS: Record<number, number | null> = { 50: 97, 100: 93, 200: 86, 300
 const FLAG = 'sales-hq-palette-playground'
 
 type Hsl = [number, number, number]
+
+function hexToHsl(hex: string): Hsl | null {
+  const clean = hex.replace(/^#/, '')
+  if (!/^[0-9a-f]{6}$/i.test(clean)) return null
+  const [r, g, b] = [0, 2, 4].map((i) => parseInt(clean.slice(i, i + 2), 16) / 255)
+  const max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min
+  let h = 0
+  if (d) h = max === r ? ((g - b) / d) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4
+  const l = (max + min) / 2
+  const sat = d ? d / (1 - Math.abs(2 * l - 1)) : 0
+  return [(h * 60 + 360) % 360, sat * 100, l * 100]
+}
 
 function hslToHex([h, s, l]: Hsl): string {
   s /= 100; l /= 100
@@ -61,12 +74,14 @@ function reset() {
 
 export function installPalettePlayground() {
   const params = new URLSearchParams(location.search)
-  if (params.has('palette')) sessionStorage.setItem(FLAG, '1')
+  const primaryParam = params.get('primary') && hexToHsl(params.get('primary')!)
+  const neutralParam = params.get('neutral') && hexToHsl(params.get('neutral')!)
+  if (params.has('palette') || primaryParam || neutralParam) sessionStorage.setItem(FLAG, '1')
   if (!import.meta.env.DEV && !sessionStorage.getItem(FLAG)) return
 
   // Стартуем от текущего бренда, чтобы стрелки крутили его, а не случайный цвет
-  let brand: Hsl = [247, 37, 45]
-  let neutral: [number, number] | null = null
+  let brand: Hsl = primaryParam || [247, 37, 45]
+  let neutral: [number, number] | null = neutralParam ? [neutralParam[0], Math.min(neutralParam[1], 6)] : null
   let visible = true
 
   const panel = document.createElement('div')
@@ -147,5 +162,7 @@ export function installPalettePlayground() {
     }
   })
 
-  render()
+  // Цвет из адреса применяем сразу, а не ждём первого нажатия
+  if (primaryParam || neutralParam) commit('из адреса')
+  else render()
 }
