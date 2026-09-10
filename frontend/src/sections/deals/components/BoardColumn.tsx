@@ -32,8 +32,9 @@ export function BoardColumn({
       onDragLeave={onDragLeave}
       onDrop={onDrop}
       className={[
-        // max-h-full + min-h-0: колонка не выше доски, длинный список прокручивается внутри неё
-        'flex max-h-full min-h-0 w-[calc(100vw-2rem)] shrink-0 snap-center flex-col rounded-xl border transition-colors sm:w-72 sm:snap-align-none',
+        // max-h-full + min-h-0: колонка не выше доски, длинный список прокручивается внутри неё.
+        // На телефоне колонка уже экрана: край соседней подсказывает, что доску можно свайпать
+        'flex max-h-full min-h-0 w-[82vw] shrink-0 snap-start flex-col rounded-xl border transition-colors sm:w-72 sm:snap-align-none',
         isDropTarget
           ? 'border-stone-400 bg-stone-200/60 dark:border-stone-700 dark:bg-stone-800/60'
           : 'border-stone-200 bg-stone-100/60 dark:border-stone-800 dark:bg-stone-950/40',

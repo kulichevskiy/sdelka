@@ -175,7 +175,7 @@ export function DealsBoard({
           </button>
         </div>
       ) : viewMode === 'board' ? (
-        <div className="min-h-0 flex-1 snap-x snap-mandatory overflow-x-auto p-4 sm:snap-none sm:p-6">
+        <div className="min-h-0 flex-1 snap-x snap-mandatory scroll-px-4 overflow-x-auto p-4 sm:snap-none sm:p-6">
           <div className="flex h-full min-h-0 gap-3">
             {orderedStages.map((stage) => {
               const stageDeals = visibleDeals.filter((deal) => deal.stageId === stage.id)
