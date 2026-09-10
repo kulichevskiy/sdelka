@@ -75,7 +75,7 @@ export function NoNextStepRow({
           <button
             type="button"
             onClick={() => setIsAdding(true)}
-            className="flex shrink-0 items-center gap-1.5 rounded-lg bg-stone-900 dark:bg-stone-100 dark:text-stone-900 px-2.5 py-1.5 text-xs font-medium text-white transition-all duration-150 hover:bg-stone-800 dark:hover:bg-stone-200 active:scale-95"
+            className="flex shrink-0 items-center gap-1.5 rounded-lg bg-brand-600 dark:bg-brand-500 dark:text-white px-2.5 py-1.5 text-xs font-medium text-white transition-all duration-150 hover:bg-brand-700 dark:hover:bg-brand-400 active:scale-95"
           >
             <Plus className="size-3.5" aria-hidden="true" />
             Поставить шаг
@@ -95,7 +95,7 @@ export function NoNextStepRow({
             }}
             placeholder="Что сделать дальше?"
             aria-label="Следующий шаг"
-            className="min-w-40 flex-1 rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-sm text-stone-900 placeholder:text-stone-400 focus:border-stone-500 focus:ring-2 focus:ring-stone-500/20 focus:outline-none dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100"
+            className="min-w-40 flex-1 rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-sm text-stone-900 placeholder:text-stone-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/25 focus:outline-none dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100"
           />
           <DatePicker
             value={dueDate}
@@ -107,7 +107,7 @@ export function NoNextStepRow({
           <button
             type="button"
             onClick={submit}
-            className="rounded-lg bg-stone-900 dark:bg-stone-100 dark:text-stone-900 px-3 py-1.5 text-sm font-medium text-white transition-all duration-150 hover:bg-stone-800 dark:hover:bg-stone-200 active:scale-95"
+            className="rounded-lg bg-brand-600 dark:bg-brand-500 dark:text-white px-3 py-1.5 text-sm font-medium text-white transition-all duration-150 hover:bg-brand-700 dark:hover:bg-brand-400 active:scale-95"
           >
             Добавить
           </button>

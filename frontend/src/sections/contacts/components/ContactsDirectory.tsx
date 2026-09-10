@@ -120,7 +120,7 @@ export function ContactsDirectory({
               className={[
                 'flex items-center gap-1.5 rounded-md px-3 py-1 text-sm transition-colors',
                 tab === item.value
-                  ? 'bg-stone-900 font-medium text-white dark:bg-stone-100 dark:text-stone-900'
+                  ? 'bg-brand-600 font-medium text-white dark:bg-brand-500 dark:text-white'
                   : 'text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100',
               ].join(' ')}
             >
@@ -140,7 +140,7 @@ export function ContactsDirectory({
         <button
           type="button"
           onClick={() => onCreate?.(tab)}
-          className="ml-auto flex items-center gap-1.5 rounded-lg bg-stone-900 dark:bg-stone-100 dark:text-stone-900 px-3 py-1.5 text-sm font-medium text-white transition-all duration-150 hover:bg-stone-800 dark:hover:bg-stone-200 active:scale-95"
+          className="ml-auto flex items-center gap-1.5 rounded-lg bg-brand-600 dark:bg-brand-500 dark:text-white px-3 py-1.5 text-sm font-medium text-white transition-all duration-150 hover:bg-brand-700 dark:hover:bg-brand-400 active:scale-95"
         >
           <Plus className="size-4" aria-hidden="true" />
           {tab === 'contacts' ? 'Новый контакт' : 'Новая компания'}

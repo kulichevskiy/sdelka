@@ -15,7 +15,7 @@ interface CustomFieldsSectionProps {
 
 const labelClass = 'text-[11px] font-semibold tracking-wider text-stone-400 uppercase dark:text-stone-500'
 const fieldClass =
-  'mt-1 w-full rounded-lg border bg-white px-2.5 py-1.5 text-sm text-stone-900 focus:border-stone-500 focus:ring-2 focus:ring-stone-500/20 focus:outline-none dark:bg-stone-900 dark:text-stone-100'
+  'mt-1 w-full rounded-lg border bg-white px-2.5 py-1.5 text-sm text-stone-900 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/25 focus:outline-none dark:bg-stone-900 dark:text-stone-100'
 
 function isEmpty(value: string | number | null | undefined) {
   return value === null || value === undefined || value === ''

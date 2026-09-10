@@ -74,7 +74,7 @@ const activityLabels: Record<ActivityType, string> = {
 }
 
 const fieldClass =
-  'w-full rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-sm text-stone-900 focus:border-stone-500 focus:ring-2 focus:ring-stone-500/20 focus:outline-none dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100'
+  'w-full rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-sm text-stone-900 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/25 focus:outline-none dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100'
 
 const labelClass =
   'text-[11px] font-semibold tracking-wider text-stone-400 uppercase dark:text-stone-500'
@@ -164,7 +164,7 @@ export function DealPanel({
               value={deal.title}
               onChange={(event) => onUpdateDeal?.(deal.id, { title: event.target.value })}
               aria-label="Название сделки"
-              className="mt-0.5 w-full rounded-md border border-transparent bg-transparent px-1 py-0.5 -ml-1 text-lg font-semibold text-stone-900 hover:border-stone-200 focus:border-stone-500 focus:ring-2 focus:ring-stone-500/20 focus:outline-none dark:text-stone-100 dark:hover:border-stone-800"
+              className="mt-0.5 w-full rounded-md border border-transparent bg-transparent px-1 py-0.5 -ml-1 text-lg font-semibold text-stone-900 hover:border-stone-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/25 focus:outline-none dark:text-stone-100 dark:hover:border-stone-800"
             />
             {deal.outcome === 'lost' && deal.lostReason && (
               <p className="mt-1 text-xs text-red-600 dark:text-red-400">
@@ -282,7 +282,7 @@ export function DealPanel({
                         type="checkbox"
                         checked={task.isDone}
                         onChange={(event) => onToggleTask?.(task.id, event.target.checked)}
-                        className="mt-0.5 size-4 shrink-0 accent-stone-800"
+                        className="mt-0.5 size-4 shrink-0 accent-brand-600"
                       />
                       <span className="min-w-0 flex-1">
                         <span
@@ -339,7 +339,7 @@ export function DealPanel({
                 type="button"
                 onClick={submitTask}
                 aria-label="Добавить задачу"
-                className="shrink-0 rounded-lg bg-stone-900 dark:bg-stone-100 dark:text-stone-900 px-2.5 text-white transition-all duration-150 hover:bg-stone-800 dark:hover:bg-stone-200 active:scale-95"
+                className="shrink-0 rounded-lg bg-brand-600 dark:bg-brand-500 dark:text-white px-2.5 text-white transition-all duration-150 hover:bg-brand-700 dark:hover:bg-brand-400 active:scale-95"
               >
                 <Plus className="size-4" aria-hidden="true" />
               </button>

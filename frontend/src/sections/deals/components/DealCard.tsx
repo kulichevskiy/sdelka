@@ -54,7 +54,7 @@ export function DealCard({
       className={[
         'group cursor-grab rounded-lg border bg-white p-3 text-left shadow-xs transition-all',
         'hover:-transtone-y-px hover:border-stone-300 hover:shadow-md',
-        'focus-visible:ring-2 focus-visible:ring-stone-500/40 focus-visible:outline-none',
+        'focus-visible:ring-2 focus-visible:ring-brand-500/40 focus-visible:outline-none',
         'active:cursor-grabbing dark:bg-stone-950',
         isDragging ? 'opacity-40' : '',
         attention === 'overdue'

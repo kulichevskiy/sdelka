@@ -47,7 +47,7 @@ export function LossReasonsTab({
                 value={reason.name}
                 onChange={(event) => onRenameLossReason?.(reason.id, event.target.value)}
                 aria-label="Причина проигрыша"
-                className="min-w-0 flex-1 rounded-md border border-transparent bg-transparent px-2 py-1 text-sm text-stone-900 hover:border-stone-200 focus:border-stone-500 focus:ring-2 focus:ring-stone-500/20 focus:outline-none dark:text-stone-100 dark:hover:border-stone-800"
+                className="min-w-0 flex-1 rounded-md border border-transparent bg-transparent px-2 py-1 text-sm text-stone-900 hover:border-stone-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/25 focus:outline-none dark:text-stone-100 dark:hover:border-stone-800"
               />
 
               <span
@@ -83,12 +83,12 @@ export function LossReasonsTab({
           onKeyDown={(event) => event.key === 'Enter' && submit()}
           placeholder="Новая причина"
           aria-label="Новая причина проигрыша"
-          className="flex-1 rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-sm text-stone-900 placeholder:text-stone-400 focus:border-stone-500 focus:ring-2 focus:ring-stone-500/20 focus:outline-none dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100"
+          className="flex-1 rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-sm text-stone-900 placeholder:text-stone-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/25 focus:outline-none dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100"
         />
         <button
           type="button"
           onClick={submit}
-          className="flex items-center gap-1.5 rounded-lg bg-stone-900 dark:bg-stone-100 dark:text-stone-900 px-3 py-1.5 text-sm font-medium text-white transition-all duration-150 hover:bg-stone-800 dark:hover:bg-stone-200 active:scale-95"
+          className="flex items-center gap-1.5 rounded-lg bg-brand-600 dark:bg-brand-500 dark:text-white px-3 py-1.5 text-sm font-medium text-white transition-all duration-150 hover:bg-brand-700 dark:hover:bg-brand-400 active:scale-95"
         >
           <Plus className="size-4" aria-hidden="true" />
           Добавить

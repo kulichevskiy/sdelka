@@ -74,7 +74,7 @@ export function MainNav({
   return (
     <div className="flex h-full flex-col gap-4 bg-white p-3 dark:bg-stone-950">
       <div className="flex items-center gap-2 px-2 pt-1">
-        <span className="flex size-7 items-center justify-center rounded-md bg-stone-900 text-xs font-bold text-white dark:bg-stone-100 dark:text-stone-900">
+        <span className="flex size-7 items-center justify-center rounded-md bg-brand-600 text-xs font-bold text-white dark:bg-brand-500 dark:text-white">
           S
         </span>
         <span
@@ -97,7 +97,7 @@ export function MainNav({
             onChange={(event) => onSearchChange?.(event.target.value)}
             placeholder={searchPlaceholder}
             aria-label={searchPlaceholder}
-            className="w-full rounded-lg border border-stone-200 bg-stone-50 py-2 pr-2.5 pl-8 text-sm text-stone-900 placeholder:text-stone-400 focus:border-stone-500 focus:bg-white focus:ring-2 focus:ring-stone-500/20 focus:outline-none dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100 dark:focus:bg-stone-900"
+            className="w-full rounded-lg border border-stone-200 bg-stone-50 py-2 pr-2.5 pl-8 text-sm text-stone-900 placeholder:text-stone-400 focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-500/25 focus:outline-none dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100 dark:focus:bg-stone-900"
           />
           {searchResults}
         </div>
@@ -105,7 +105,7 @@ export function MainNav({
         <button
           type="button"
           onClick={onCreate}
-          className="flex w-full items-center justify-center gap-1.5 rounded-lg bg-stone-900 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-stone-800 focus-visible:ring-2 focus-visible:ring-stone-500/40 focus-visible:outline-none dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-200"
+          className="flex w-full items-center justify-center gap-1.5 rounded-lg bg-brand-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-700 focus-visible:ring-2 focus-visible:ring-brand-500/40 focus-visible:outline-none dark:bg-brand-500 dark:text-white dark:hover:bg-brand-400"
         >
           <Plus className="size-4" aria-hidden="true" />
           {createLabel}
@@ -125,7 +125,7 @@ export function MainNav({
                   className={[
                     'flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm transition-colors',
                     item.isActive
-                      ? 'bg-stone-200 font-medium text-stone-900 dark:bg-stone-800 dark:text-stone-100'
+                      ? 'bg-brand-50 font-medium text-brand-700 dark:bg-brand-950 dark:text-brand-200'
                       : 'text-stone-600 hover:bg-stone-100 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-stone-900 dark:hover:text-stone-100',
                   ].join(' ')}
                 >
@@ -141,7 +141,7 @@ export function MainNav({
                     <span
                       className={[
                         'inline-flex min-w-5 shrink-0 items-center justify-center rounded-full px-1.5 py-0.5 text-xs font-semibold tabular-nums text-white',
-                        item.badgeUrgent ? 'bg-red-600' : 'bg-stone-900 dark:bg-stone-100 dark:text-stone-900',
+                        item.badgeUrgent ? 'bg-red-600' : 'bg-brand-600 dark:bg-brand-500 dark:text-white',
                       ].join(' ')}
                     >
                       {item.badge}

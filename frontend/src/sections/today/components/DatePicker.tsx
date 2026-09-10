@@ -241,7 +241,7 @@ export function DatePicker({
               className={[
                 'aspect-square rounded-md text-xs tabular-nums transition-colors',
                 isSelected
-                  ? 'bg-stone-900 dark:bg-stone-100 dark:text-stone-900 font-semibold text-white'
+                  ? 'bg-brand-600 dark:bg-brand-500 dark:text-white font-semibold text-white'
                   : isFocused
                     ? 'bg-stone-100 text-stone-900 dark:bg-stone-800 dark:text-stone-100'
                     : isCurrentMonth
@@ -283,10 +283,10 @@ export function DatePicker({
         aria-label={ariaLabel}
         className={[
           'flex w-full items-center gap-1.5 rounded-lg border bg-white text-left tabular-nums transition-colors',
-          'focus:ring-2 focus:ring-stone-500/20 focus:outline-none dark:bg-stone-950',
+          'focus:ring-2 focus:ring-brand-500/25 focus:outline-none dark:bg-stone-950',
           triggerSize,
           open
-            ? 'border-stone-500 dark:border-stone-600'
+            ? 'border-brand-500 dark:border-brand-400'
             : 'border-stone-200 hover:border-stone-300 dark:border-stone-800 dark:hover:border-stone-700',
         ].join(' ')}
       >

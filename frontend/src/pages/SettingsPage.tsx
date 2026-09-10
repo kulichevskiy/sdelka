@@ -87,7 +87,7 @@ export function SettingsPage() {
                 className={[
                   'flex flex-col items-center gap-1.5 rounded-lg border p-3 text-xs font-medium transition-colors',
                   active
-                    ? 'border-stone-900 bg-stone-900 text-white dark:border-stone-100 dark:bg-stone-100 dark:text-stone-900'
+                    ? 'border-brand-600 bg-brand-600 text-white dark:border-brand-400 dark:bg-brand-500 dark:text-white'
                     : 'border-stone-200 text-stone-600 hover:bg-stone-50 dark:border-stone-800 dark:text-stone-400 dark:hover:bg-stone-900',
                 ].join(' ')}
               >

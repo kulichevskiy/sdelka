@@ -113,7 +113,7 @@ export function RegisterPage() {
                   className={[
                     'rounded-lg border px-3 py-2 text-left transition-colors',
                     currency === item.value
-                      ? 'border-stone-900 bg-stone-900 text-white dark:border-stone-100 dark:bg-stone-100 dark:text-stone-900'
+                      ? 'border-brand-600 bg-brand-600 text-white dark:border-brand-400 dark:bg-brand-500 dark:text-white'
                       : 'border-stone-200 text-stone-700 hover:bg-stone-50 dark:border-stone-800 dark:text-stone-300 dark:hover:bg-stone-900',
                   ].join(' ')}
                 >
@@ -138,17 +138,17 @@ export function RegisterPage() {
                     className={[
                       'flex items-start gap-3 rounded-lg border p-3 text-left transition-colors',
                       active
-                        ? 'border-stone-900 dark:border-stone-100'
+                        ? 'border-brand-600 dark:border-brand-400'
                         : 'border-stone-200 hover:bg-stone-50 dark:border-stone-800 dark:hover:bg-stone-900',
                     ].join(' ')}
                   >
                     <span
                       className={[
                         'mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full border',
-                        active ? 'border-stone-900 bg-stone-900 dark:border-stone-100 dark:bg-stone-100' : 'border-stone-300 dark:border-stone-700',
+                        active ? 'border-brand-600 bg-brand-600 dark:border-brand-400 dark:bg-stone-100' : 'border-stone-300 dark:border-stone-700',
                       ].join(' ')}
                     >
-                      {active && <Check className="size-3 text-white dark:text-stone-900" aria-hidden="true" />}
+                      {active && <Check className="size-3 text-white" aria-hidden="true" />}
                     </span>
                     <span className="min-w-0">
                       <span className="block text-sm font-medium">{item.label}</span>

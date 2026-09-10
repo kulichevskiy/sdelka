@@ -76,7 +76,7 @@ export function AdminSettings({
                 className={[
                   'flex shrink-0 items-center gap-1.5 border-b-2 px-3 py-2 text-sm transition-colors',
                   isActive
-                    ? 'border-stone-600 font-medium text-stone-900 dark:border-stone-500 dark:text-stone-200'
+                    ? 'border-brand-600 font-medium text-brand-700 dark:border-brand-400 dark:text-brand-200'
                     : 'border-transparent text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100',
                 ].join(' ')}
               >

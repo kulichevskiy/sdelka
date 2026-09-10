@@ -130,7 +130,7 @@ export function AppShell({
                   onChange={(event) => onSearchChange?.(event.target.value)}
                   placeholder="Поиск по CRM"
                   aria-label="Поиск по CRM"
-                  className="w-full rounded-lg border border-stone-200 bg-stone-50 py-2 pr-2.5 pl-8 text-sm text-stone-900 placeholder:text-stone-400 focus:border-stone-500 focus:bg-white focus:ring-2 focus:ring-stone-500/20 focus:outline-none dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100"
+                  className="w-full rounded-lg border border-stone-200 bg-stone-50 py-2 pr-2.5 pl-8 text-sm text-stone-900 placeholder:text-stone-400 focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-500/25 focus:outline-none dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100"
                 />
                 {searchResults && <div className="absolute top-full left-0 z-40 mt-1 w-full">{searchResults}</div>}
               </div>
@@ -148,7 +148,7 @@ export function AppShell({
             </>
           ) : (
             <>
-              <span className="flex size-7 items-center justify-center rounded-md bg-stone-900 text-xs font-bold text-white dark:bg-stone-100 dark:text-stone-900">
+              <span className="flex size-7 items-center justify-center rounded-md bg-brand-600 text-xs font-bold text-white dark:bg-brand-500 dark:text-white">
                 S
               </span>
               <span className="flex-1 truncate text-sm font-bold tracking-tight" style={{ fontFamily: HEADING_FONT }}>
@@ -166,7 +166,7 @@ export function AppShell({
                 type="button"
                 onClick={onCreate}
                 aria-label="Создать"
-                className="rounded-md bg-stone-900 p-2 text-white transition-colors hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-200"
+                className="rounded-md bg-brand-600 p-2 text-white transition-colors hover:bg-brand-700 dark:bg-brand-500 dark:text-white dark:hover:bg-brand-400"
               >
                 <Plus className="size-5" aria-hidden="true" />
               </button>
@@ -192,7 +192,7 @@ export function AppShell({
                 aria-current={item.isActive ? 'page' : undefined}
                 className={[
                   'relative flex flex-col items-center gap-0.5 px-1 py-2 text-[11px] transition-colors',
-                  item.isActive ? 'text-stone-900 dark:text-stone-100' : 'text-stone-500 dark:text-stone-400',
+                  item.isActive ? 'text-brand-700 dark:text-brand-300' : 'text-stone-500 dark:text-stone-400',
                 ].join(' ')}
               >
                 <span className="relative">
@@ -201,7 +201,7 @@ export function AppShell({
                     <span
                       className={[
                         'absolute -top-1.5 -right-2.5 min-w-4 rounded-full px-1 text-[10px] font-semibold tabular-nums text-white',
-                        item.badgeUrgent ? 'bg-red-600' : 'bg-stone-900 dark:bg-stone-100 dark:text-stone-900',
+                        item.badgeUrgent ? 'bg-red-600' : 'bg-brand-600 dark:bg-brand-500 dark:text-white',
                       ].join(' ')}
                     >
                       {item.badge}

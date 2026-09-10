@@ -26,7 +26,7 @@ const features = [
 ]
 
 const primaryButton =
-  'inline-flex items-center justify-center gap-2 rounded-lg bg-stone-900 px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-200'
+  'inline-flex items-center justify-center gap-2 rounded-lg bg-brand-600 px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-700 dark:bg-brand-500 dark:text-white dark:hover:bg-brand-400'
 const secondaryButton =
   'inline-flex items-center justify-center gap-2 rounded-lg border border-stone-200 px-5 py-3 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-100 dark:border-stone-800 dark:text-stone-300 dark:hover:bg-stone-800'
 
@@ -39,7 +39,7 @@ export function LandingPage() {
           <Link to="/login" className="rounded-lg px-3 py-2 text-sm font-medium text-stone-600 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-800">
             Войти
           </Link>
-          <Link to="/register" className="rounded-lg bg-stone-900 px-3 py-2 text-sm font-medium text-white hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-200">
+          <Link to="/register" className="rounded-lg bg-brand-600 px-3 py-2 text-sm font-medium text-white hover:bg-brand-700 dark:bg-brand-500 dark:text-white dark:hover:bg-brand-400">
             Начать бесплатно
           </Link>
         </nav>
@@ -211,11 +211,11 @@ function HeroMock() {
         <div className="flex">
           <aside className="hidden w-28 shrink-0 border-r border-stone-100 p-2.5 sm:block dark:border-stone-800">
             <div className="flex items-center gap-1.5">
-              <span className="flex size-4 items-center justify-center rounded bg-stone-900 text-[7px] font-bold text-white dark:bg-stone-100 dark:text-stone-900">S</span>
+              <span className="flex size-4 items-center justify-center rounded bg-brand-600 text-[7px] font-bold text-white dark:bg-brand-500 dark:text-white">S</span>
               <Line w="w-10" tone="bg-stone-800 dark:bg-stone-200" />
             </div>
             <div className="mt-3 h-4 rounded border border-stone-200 dark:border-stone-800" />
-            <div className="mt-1.5 h-4 rounded bg-stone-900 dark:bg-stone-100" />
+            <div className="mt-1.5 h-4 rounded bg-brand-600 dark:bg-brand-400" />
             <div className="mt-3 flex flex-col gap-1.5">
               <div className="flex items-center justify-between rounded bg-stone-100 px-1.5 py-1 dark:bg-stone-800">
                 <Line w="w-8" tone="bg-stone-700 dark:bg-stone-300" />
@@ -233,7 +233,7 @@ function HeroMock() {
             <div className="mt-2 flex gap-1.5">
               <div className="h-4 w-20 rounded border border-stone-200 dark:border-stone-800" />
               <div className="h-4 w-16 rounded border border-stone-200 dark:border-stone-800" />
-              <div className="ml-auto h-4 w-14 rounded bg-stone-900 dark:bg-stone-100" />
+              <div className="ml-auto h-4 w-14 rounded bg-brand-600 dark:bg-brand-400" />
             </div>
             <div className="mt-3">
               <BoardMock />
@@ -275,7 +275,7 @@ function TodayMock() {
         <span className="text-[9px] font-semibold tracking-wider text-amber-600 uppercase">Без следующего шага · 1</span>
         <div className="mt-1.5 flex items-center gap-2 rounded-md border border-dashed border-amber-300 p-2 dark:border-amber-800">
           <div className="flex-1"><Line w="w-2/3" tone="bg-stone-800 dark:bg-stone-200" /></div>
-          <div className="h-4 w-12 rounded bg-stone-900 dark:bg-stone-100" />
+          <div className="h-4 w-12 rounded bg-brand-600 dark:bg-brand-400" />
         </div>
       </div>
     </div>
@@ -286,7 +286,7 @@ function ContactsMock() {
   return (
     <div className="flex flex-col gap-1.5">
       <div className="mb-1 flex gap-1">
-        <span className="rounded bg-stone-900 px-1.5 py-0.5 text-[9px] font-medium text-white dark:bg-stone-100 dark:text-stone-900">Контакты 14</span>
+        <span className="rounded bg-brand-600 px-1.5 py-0.5 text-[9px] font-medium text-white dark:bg-brand-500 dark:text-white">Контакты 14</span>
         <span className="rounded px-1.5 py-0.5 text-[9px] text-stone-400">Компании 12</span>
       </div>
       {['ИП', 'ЕШ', 'ТА', 'ОК', 'СД'].map((initials, i) => (

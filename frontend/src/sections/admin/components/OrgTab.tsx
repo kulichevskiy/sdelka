@@ -46,7 +46,7 @@ export function OrgTab({ org, onUpdateOrg, onLoadDemo, onClearDemo, isDemoPendin
               onChange={(event) => setName(event.target.value)}
               onBlur={commitName}
               onKeyDown={(event) => event.key === 'Enter' && (event.target as HTMLInputElement).blur()}
-              className="mt-1 w-full rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-sm text-stone-900 focus:border-stone-500 focus:ring-2 focus:ring-stone-500/20 focus:outline-none dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100"
+              className="mt-1 w-full rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-sm text-stone-900 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/25 focus:outline-none dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100"
             />
           </label>
           <div>
@@ -90,7 +90,7 @@ export function OrgTab({ org, onUpdateOrg, onLoadDemo, onClearDemo, isDemoPendin
               type="button"
               disabled={isDemoPending}
               onClick={onLoadDemo}
-              className="rounded-lg bg-stone-900 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-stone-800 disabled:opacity-50 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-200"
+              className="rounded-lg bg-brand-600 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-brand-700 disabled:opacity-50 dark:bg-brand-500 dark:text-white dark:hover:bg-brand-400"
             >
               {isDemoPending ? 'Заполняем…' : 'Заполнить демо-данными'}
             </button>

@@ -57,7 +57,7 @@ export function OnboardingChecklist({ onboarding, steps, canAdmin, onLoadDemo, i
 
       <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-stone-100 dark:bg-stone-800">
         <div
-          className="h-full rounded-full bg-stone-900 transition-all duration-500 dark:bg-stone-100"
+          className="h-full rounded-full bg-brand-600 transition-all duration-500 dark:bg-stone-100"
           style={{ width: `${(done / total) * 100}%` }}
         />
       </div>
@@ -112,7 +112,7 @@ export function OnboardingChecklist({ onboarding, steps, canAdmin, onLoadDemo, i
             type="button"
             onClick={onLoadDemo}
             disabled={isLoadingDemo}
-            className="shrink-0 rounded-lg bg-stone-900 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-stone-800 disabled:opacity-50 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-200"
+            className="shrink-0 rounded-lg bg-brand-600 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-brand-700 disabled:opacity-50 dark:bg-brand-500 dark:text-white dark:hover:bg-brand-400"
           >
             {isLoadingDemo ? 'Заполняем…' : 'Заполнить демо-данными'}
           </button>
@@ -151,7 +151,7 @@ export function OnboardingSidebarCard({
         </span>
       </span>
       <span className="mt-2 block h-1 overflow-hidden rounded-full bg-stone-200 dark:bg-stone-800">
-        <span className="block h-full rounded-full bg-stone-900 dark:bg-stone-100" style={{ width: `${(done / total) * 100}%` }} />
+        <span className="block h-full rounded-full bg-brand-600 dark:bg-brand-400" style={{ width: `${(done / total) * 100}%` }} />
       </span>
       <span className="mt-2 block truncate text-xs text-stone-700 dark:text-stone-300">Дальше: {next.title.toLowerCase()}</span>
     </button>

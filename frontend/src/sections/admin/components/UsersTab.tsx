@@ -81,7 +81,7 @@ function LinkDialog({ state, onClose }: { state: LinkDialogState; onClose: () =>
           <button
             type="button"
             onClick={copy}
-            className="flex shrink-0 items-center gap-1.5 rounded-lg bg-stone-900 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-200"
+            className="flex shrink-0 items-center gap-1.5 rounded-lg bg-brand-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-700 dark:bg-brand-500 dark:text-white dark:hover:bg-brand-400"
           >
             {copied ? <Check className="size-4" aria-hidden="true" /> : <Copy className="size-4" aria-hidden="true" />}
             {copied ? 'Скопировано' : 'Копировать'}
@@ -181,7 +181,7 @@ export function UsersTab({
             onChange={(event) => setEmail(event.target.value)}
             onKeyDown={(event) => event.key === 'Enter' && submitInvite()}
             placeholder="имя@компания.ру"
-            className="mt-1 w-full rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-sm text-stone-900 placeholder:text-stone-400 focus:border-stone-500 focus:ring-2 focus:ring-stone-500/20 focus:outline-none dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100"
+            className="mt-1 w-full rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-sm text-stone-900 placeholder:text-stone-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/25 focus:outline-none dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100"
           />
         </label>
 
@@ -202,7 +202,7 @@ export function UsersTab({
           type="button"
           onClick={submitInvite}
           disabled={isInviting || !email.trim()}
-          className="flex items-center gap-1.5 rounded-lg bg-stone-900 px-3 py-1.5 text-sm font-medium text-white transition-all duration-150 hover:bg-stone-800 active:scale-95 disabled:opacity-50 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-200"
+          className="flex items-center gap-1.5 rounded-lg bg-brand-600 px-3 py-1.5 text-sm font-medium text-white transition-all duration-150 hover:bg-brand-700 active:scale-95 disabled:opacity-50 dark:bg-brand-500 dark:text-white dark:hover:bg-brand-400"
         >
           <UserPlus className="size-4" aria-hidden="true" />
           Пригласить

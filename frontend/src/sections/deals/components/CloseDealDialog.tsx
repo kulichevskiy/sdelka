@@ -88,7 +88,7 @@ export function CloseDealDialog({ dealTitle, lossReasons = [], onConfirm, onCanc
               value={lostReason}
               onChange={(event) => setLostReason(event.target.value)}
               placeholder="Например: выбрали конкурента"
-              className="mt-1 w-full rounded-lg border border-stone-200 bg-white px-2.5 py-2 text-sm text-stone-900 placeholder:text-stone-400 focus:border-stone-500 focus:ring-2 focus:ring-stone-500/20 focus:outline-none dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100"
+              className="mt-1 w-full rounded-lg border border-stone-200 bg-white px-2.5 py-2 text-sm text-stone-900 placeholder:text-stone-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/25 focus:outline-none dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100"
             />
             {lossReasons.length > 0 && (
               <span className="mt-2 flex flex-wrap gap-1">
@@ -100,7 +100,7 @@ export function CloseDealDialog({ dealTitle, lossReasons = [], onConfirm, onCanc
                     className={[
                       'rounded-md border px-2 py-0.5 text-xs transition-colors',
                       lostReason === reason
-                        ? 'border-stone-900 bg-stone-900 text-white dark:border-stone-100 dark:bg-stone-100 dark:text-stone-900'
+                        ? 'border-brand-600 bg-brand-600 text-white dark:border-brand-400 dark:bg-brand-500 dark:text-white'
                         : 'border-stone-200 text-stone-600 hover:bg-stone-100 dark:border-stone-800 dark:text-stone-400 dark:hover:bg-stone-800',
                     ].join(' ')}
                   >
@@ -124,7 +124,7 @@ export function CloseDealDialog({ dealTitle, lossReasons = [], onConfirm, onCanc
             type="button"
             disabled={!outcome || (outcome === 'lost' && !lostReason.trim())}
             onClick={() => outcome && onConfirm(outcome, lostReason.trim() || undefined)}
-            className="rounded-lg bg-stone-900 dark:bg-stone-100 dark:text-stone-900 px-3 py-2 text-sm font-medium text-white transition-all duration-150 hover:bg-stone-800 dark:hover:bg-stone-200 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:active:scale-100"
+            className="rounded-lg bg-brand-600 dark:bg-brand-500 dark:text-white px-3 py-2 text-sm font-medium text-white transition-all duration-150 hover:bg-brand-700 dark:hover:bg-brand-400 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:active:scale-100"
           >
             Закрыть сделку
           </button>

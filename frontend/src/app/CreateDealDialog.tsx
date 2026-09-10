@@ -10,7 +10,7 @@ interface CreateDealDialogProps {
 }
 
 const fieldClass =
-  'mt-1 w-full rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-sm text-stone-900 placeholder:text-stone-400 focus:border-stone-500 focus:ring-2 focus:ring-stone-500/20 focus:outline-none dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100'
+  'mt-1 w-full rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-sm text-stone-900 placeholder:text-stone-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/25 focus:outline-none dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100'
 const labelClass = 'text-[11px] font-semibold tracking-wider text-stone-400 uppercase dark:text-stone-500'
 
 const NEW_COMPANY = '__new__'
@@ -161,7 +161,7 @@ export function CreateDealDialog({ onClose, onCreated }: CreateDealDialogProps) 
             type="button"
             disabled={!canSubmit || isPending}
             onClick={submit}
-            className="rounded-lg bg-stone-900 px-3 py-2 text-sm font-medium text-white transition-all duration-150 hover:bg-stone-800 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-200"
+            className="rounded-lg bg-brand-600 px-3 py-2 text-sm font-medium text-white transition-all duration-150 hover:bg-brand-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-brand-500 dark:text-white dark:hover:bg-brand-400"
           >
             {isPending ? 'Создаём…' : 'Создать'}
           </button>

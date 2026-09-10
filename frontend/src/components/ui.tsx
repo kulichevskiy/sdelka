@@ -8,7 +8,7 @@ import { Loader2 } from 'lucide-react'
 export const FONT = 'Graphik, system-ui, sans-serif'
 
 export const inputClass =
-  'mt-1 w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900 placeholder:text-stone-400 focus:border-stone-500 focus:ring-2 focus:ring-stone-500/20 focus:outline-none dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100'
+  'mt-1 w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900 placeholder:text-stone-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/25 focus:outline-none dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100'
 
 export const labelClass =
   'text-[11px] font-semibold tracking-wider text-stone-400 uppercase dark:text-stone-500'
@@ -40,7 +40,7 @@ type Variant = 'primary' | 'secondary' | 'ghost' | 'danger'
 
 const variants: Record<Variant, string> = {
   primary:
-    'bg-stone-900 text-white hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-200',
+    'bg-brand-600 text-white hover:bg-brand-700 dark:bg-brand-500 dark:text-white dark:hover:bg-brand-400',
   secondary:
     'border border-stone-200 text-stone-700 hover:bg-stone-100 dark:border-stone-800 dark:text-stone-300 dark:hover:bg-stone-800',
   ghost: 'text-stone-600 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-800',
@@ -120,7 +120,7 @@ export function Logo({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
   return (
     <span className="inline-flex items-center gap-2" style={{ fontFamily: FONT }}>
       <span
-        className={`flex ${box} items-center justify-center rounded-md bg-stone-900 font-bold text-white dark:bg-stone-100 dark:text-stone-900`}
+        className={`flex ${box} items-center justify-center rounded-md bg-brand-600 font-bold text-white dark:bg-brand-500 dark:text-white`}
       >
         S
       </span>

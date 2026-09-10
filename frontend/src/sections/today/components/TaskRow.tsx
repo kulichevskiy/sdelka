@@ -65,7 +65,7 @@ export function TaskRow({
               else onToggle?.(false)
             }}
             aria-label={`Выполнено: ${task.title}`}
-            className="mt-0.5 size-4.5 shrink-0 cursor-pointer accent-stone-800 transition-transform active:scale-90"
+            className="mt-0.5 size-4.5 shrink-0 cursor-pointer accent-brand-600 transition-transform active:scale-90"
           />
 
           <div className="min-w-0 flex-1">
