@@ -1,0 +1,54 @@
+# Продакшен-состав: Postgres, API и веб (Caddy со статикой и авто-HTTPS).
+# Локально без DOMAIN сайт открывается на http://localhost:8080.
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-crm}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-crm}
+      POSTGRES_DB: ${POSTGRES_DB:-crm}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-crm} -d ${POSTGRES_DB:-crm}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-crm}:${POSTGRES_PASSWORD:-crm}@db:5432/${POSTGRES_DB:-crm}
+      SECRET_KEY: ${SECRET_KEY:?SECRET_KEY обязателен, см. .env.example}
+      APP_URL: ${APP_URL:-http://localhost:8080}
+      DEBUG: ${DEBUG:-false}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_FROM: ${SMTP_FROM:-}
+
+  web:
+    build: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - api
+    environment:
+      # Пусто = HTTP на порту 80 без сертификата. Домен = автоматический HTTPS.
+      DOMAIN: ${DOMAIN:-}
+    ports:
+      - "${HTTP_PORT:-8080}:80"
+      - "${HTTPS_PORT:-8443}:443"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:

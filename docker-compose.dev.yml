@@ -1,0 +1,18 @@
+# Разработка: только Postgres в Docker, api и web запускаются локально с hot-reload.
+#   docker compose -f docker-compose.dev.yml up -d
+#   cd backend  && uv run uvicorn app.main:app --reload --port 8000
+#   cd frontend && npm run dev            # http://localhost:5173, /api проксируется на 8000
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: crm
+      POSTGRES_PASSWORD: crm
+      POSTGRES_DB: crm
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata_dev:/var/lib/postgresql/data
+
+volumes:
+  pgdata_dev:
