@@ -4,10 +4,13 @@ import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { App } from './App'
 import { applyTheme, readTheme } from './lib/theme'
+import { installPalettePlayground } from './lib/palettePlayground'
 import './index.css'
 
 // Тема до первого рендера, чтобы не мигало белым
 applyTheme(readTheme())
+// Живой подбор палитры: dev всегда, прод — по ?palette в адресе
+installPalettePlayground()
 
 const queryClient = new QueryClient({
   defaultOptions: {
