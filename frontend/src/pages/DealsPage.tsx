@@ -51,6 +51,7 @@ export function DealsPage() {
     <DealsBoard
       key={openDealId ?? 'board'}
       initialDealId={openDealId}
+      currency={me.org.currency}
       deals={dealList.map((deal) => ({ ...deal, currency: me.org.currency, expectedCloseDate: deal.expectedCloseDate ?? '' }))}
       stages={stages}
       users={users

@@ -11,6 +11,7 @@ import { attentionOf, formatMoney } from './deals-utils'
 
 /** Типографика продукта: Graphik (product/design-system/typography.json), задаётся оболочкой */
 export function DealsBoard({
+  currency: orgCurrency,
   initialDealId = null,
   deals,
   stages,
@@ -83,7 +84,7 @@ export function DealsBoard({
     })
   }, [visibleDeals, sortField, sortDirection])
 
-  const currency = deals[0]?.currency ?? 'RUB'
+  const currency = orgCurrency ?? deals[0]?.currency ?? 'RUB'
   const openDeal = deals.find((deal) => deal.id === openDealId)
   const closingDeal = deals.find((deal) => deal.id === closingDealId)
   const totalVisible = visibleDeals.reduce((sum, deal) => sum + deal.amount, 0)

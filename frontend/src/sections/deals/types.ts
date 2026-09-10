@@ -126,6 +126,8 @@ export interface ActivityDraft {
 }
 
 export interface DealsProps {
+  /** Валюта организации: пустая доска тоже должна показывать правильный знак */
+  currency?: string
   /** Сделка, открытая сразу при входе — переход из другого раздела */
   initialDealId?: string | null
   deals: Deal[]
