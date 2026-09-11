@@ -128,6 +128,7 @@ export function LandingPage() {
 
       <footer className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-8 text-xs text-stone-400 sm:px-6 dark:text-stone-500">
         <Logo size="sm" />
+        <span>тест</span>
         <span>© 2026 Сделка · sdelka.app</span>
       </footer>
     </div>
