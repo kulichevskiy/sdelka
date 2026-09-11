@@ -1,8 +1,10 @@
 # Продакшен-состав: Postgres, API и веб (Caddy со статикой и авто-HTTPS).
+# Базовые образы берём с public.ecr.aws (зеркало Docker Hub без лимита анонимных pull),
+# иначе деплой падает с 429 Too Many Requests от registry-1.docker.io.
 # Локально без DOMAIN сайт открывается на http://localhost:8080.
 services:
   db:
-    image: postgres:16-alpine
+    image: public.ecr.aws/docker/library/postgres:16-alpine
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-crm}
