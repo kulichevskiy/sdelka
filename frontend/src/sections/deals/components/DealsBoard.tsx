@@ -25,6 +25,7 @@ export function DealsBoard({
   customFields = [],
   lossReasons = [],
   emptyState,
+  toolbarActions,
   onOpenDeal,
   onMoveDeal,
   onCreateDeal,
@@ -152,6 +153,7 @@ export function DealsBoard({
           onAttentionToggle={() => setAttentionOnly((value) => !value)}
           onViewModeChange={setViewMode}
           onCreateDeal={onCreateDeal}
+          actions={toolbarActions}
         />
       </header>
 

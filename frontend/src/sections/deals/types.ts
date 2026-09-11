@@ -147,6 +147,8 @@ export interface DealsProps {
   lossReasons?: string[]
   /** Что показать, когда сделок нет вовсе (не из-за фильтров) */
   emptyState?: ReactNode
+  /** Действия над всеми сделками, не зависящие от фильтров доски */
+  toolbarActions?: ReactNode
   /** Открывает сделку в боковой панели */
   onOpenDeal?: (dealId: string) => void
   /** Перенос сделки на другую стадию; outcome передаётся при переносе на закрывающую стадию */

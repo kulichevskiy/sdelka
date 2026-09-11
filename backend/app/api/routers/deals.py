@@ -1,12 +1,14 @@
+import csv
+import io
 import uuid
 from datetime import date
 
-from fastapi import APIRouter, HTTPException
-from sqlalchemy import select, update
+from fastapi import APIRouter, HTTPException, Response
+from sqlalchemy import and_, select, update
 
 from app.api.common import apply_patch, ensure_exists, get_or_404
 from app.core.deps import DB, Admin, Cur
-from app.models import Activity, Company, Contact, Deal, Stage, User
+from app.models import Activity, Company, Contact, CustomField, Deal, Stage, User
 from app.schemas import DealIn, DealMoveIn, DealOut, DealPatch
 
 router = APIRouter(prefix="/deals")
@@ -24,6 +26,92 @@ async def list_deals(current: Cur, db: DB) -> list[DealOut]:
         .all()
     )
     return [DealOut.model_validate(r) for r in rows]
+
+
+def _csv_cell(value):
+    # Quoting alone does not stop spreadsheet formulas. Preserve the original text after a quote.
+    if isinstance(value, str):
+        significant = value.lstrip("\ufeff \t\r\n\v\f")
+        if value.startswith(("\t", "\r", "\n")) or significant.startswith(("=", "+", "-", "@")):
+            return "'" + value
+    return value
+
+
+@router.get(
+    "/export.csv",
+    response_class=Response,
+    responses={200: {"content": {"text/csv": {"schema": {"type": "string", "format": "binary"}}}}},
+)
+async def export_deals(current: Cur, db: DB) -> Response:
+    fields = (
+        await db.scalars(
+            select(CustomField)
+            .where(CustomField.org_id == current.org_id, CustomField.entity == "deal")
+            .order_by(CustomField.order, CustomField.id)
+        )
+    ).all()
+    query = select(Deal, Company.name, Contact.name, User.name, Stage.name)
+    for model, ref in (
+        (Company, Deal.company_id),
+        (Contact, Deal.contact_id),
+        (User, Deal.owner_id),
+        (Stage, Deal.stage_id),
+    ):
+        query = query.outerjoin(model, and_(model.id == ref, model.org_id == current.org_id))
+    rows = (
+        await db.execute(
+            query.where(Deal.org_id == current.org_id).order_by(Deal.created_at.desc(), Deal.id)
+        )
+    ).all()
+    # Buffer before sending headers: a query/serialization failure must not look like a full export.
+    output = io.StringIO(newline="")
+    writer = csv.writer(output)
+    writer.writerow(
+        [
+            "ID",
+            "Название",
+            "Компания",
+            "Контакт",
+            "Ответственный",
+            "Стадия",
+            "Сумма",
+            "Валюта",
+            "Дата создания",
+            "Ожидаемая дата закрытия",
+            "Исход",
+            "Причина проигрыша",
+            "Описание",
+            *(_csv_cell(field.name) for field in fields),
+        ]
+    )
+    for deal, company, contact, owner, stage in rows:
+        writer.writerow(
+            _csv_cell(value)
+            for value in [
+                deal.id,
+                deal.title,
+                company,
+                contact,
+                owner,
+                stage,
+                deal.amount,
+                current.org.currency,
+                deal.created_on,
+                deal.expected_close_date,
+                deal.outcome,
+                deal.lost_reason,
+                deal.description,
+                *(deal.custom_values.get(str(field.id)) for field in fields),
+            ]
+        )
+    return Response(
+        output.getvalue().encode("utf-8-sig"),
+        media_type="text/csv",
+        headers={
+            "Content-Disposition": 'attachment; filename="deals.csv"',
+            "Cache-Control": "no-store",
+        },
+    )
 
 
 async def _check_refs(db, current, company_id, contact_id, owner_id) -> None:
