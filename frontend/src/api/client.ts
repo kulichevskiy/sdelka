@@ -29,13 +29,21 @@ function extractDetail(payload: unknown, fallback: string): string {
   return fallback
 }
 
-async function request<T>(method: Method, path: string, body?: unknown): Promise<T> {
+async function request<T>(method: Method, path: string, body?: unknown, csv = false): Promise<T> {
   const response = await fetch(`/api${path}`, {
     method,
     credentials: 'include',
+    ...(csv ? { cache: 'no-store' as const } : {}),
     headers: body === undefined ? undefined : { 'Content-Type': 'application/json' },
     body: body === undefined ? undefined : JSON.stringify(body),
   })
+
+  if (csv && response.ok) {
+    if (response.headers.get('content-type')?.split(';')[0].trim() !== 'text/csv') {
+      throw new ApiError(response.status, 'Сервер не вернул CSV. Попробуйте ещё раз.')
+    }
+    return await response.blob() as T
+  }
 
   if (response.status === 204) return undefined as T
 
@@ -55,6 +63,7 @@ async function request<T>(method: Method, path: string, body?: unknown): Promise
 }
 
 export const api = {
+  csv: (path: string) => request<Blob>('GET', path, undefined, true),
   get: <T>(path: string) => request<T>('GET', path),
   post: <T>(path: string, body?: unknown) => request<T>('POST', path, body),
   patch: <T>(path: string, body: unknown) => request<T>('PATCH', path, body),

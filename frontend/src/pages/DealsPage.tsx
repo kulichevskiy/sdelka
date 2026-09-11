@@ -17,6 +17,7 @@ import {
   useUsers,
 } from '@/api/queries'
 import { EmptyState } from '@/components/EmptyState'
+import { ExportDealsButton } from '@/app/ExportDealsButton'
 import { BoardIllustration } from '@/components/illustrations'
 import { Button } from '@/components/ui'
 import { canAdmin } from '@/lib/roles'
@@ -112,6 +113,7 @@ export function DealsPage() {
         createActivity.mutate({ companyId: deal.companyId, contactId: deal.contactId, dealId, ...draft })
       }}
       onCreateDeal={openCreateDeal}
+      toolbarActions={<ExportDealsButton />}
     />
   )
 }

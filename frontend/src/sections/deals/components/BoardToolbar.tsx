@@ -1,9 +1,11 @@
 import { roleLabel } from '@/lib/roles'
+import type { ReactNode } from 'react'
 import { AlertTriangle, KanbanSquare, Plus, Table2 } from 'lucide-react'
 import type { DealsViewMode, User } from '../types'
 import { Select, type SelectOption } from './Select'
 
 interface BoardToolbarProps {
+  actions?: ReactNode
   users: User[]
   currentUserId: string
   ownerFilter: string
@@ -17,6 +19,7 @@ interface BoardToolbarProps {
 }
 
 export function BoardToolbar({
+  actions,
   users,
   currentUserId,
   ownerFilter,
@@ -109,6 +112,7 @@ export function BoardToolbar({
         <Plus className="size-4" aria-hidden="true" />
         Новая сделка
       </button>
+      {actions}
     </div>
   )
 }
