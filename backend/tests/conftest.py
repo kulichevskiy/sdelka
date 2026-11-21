@@ -16,9 +16,13 @@ TEST_DB = os.environ.get(
 os.environ["DATABASE_URL"] = TEST_DB
 os.environ["APP_URL"] = "http://testserver"
 os.environ["SMTP_HOST"] = ""
+os.environ["POSTBOX_KEY_ID"] = ""
+os.environ["POSTBOX_SECRET_KEY"] = ""
 
+from app.core.config import get_settings  # noqa: E402
 from app.core.db import Base, get_engine  # noqa: E402
 from app.main import app  # noqa: E402
+from app.services import mail  # noqa: E402
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -34,6 +38,26 @@ async def clean_tables():
     tables = ", ".join(t.name for t in Base.metadata.sorted_tables)
     async with get_engine().begin() as conn:
         await conn.execute(text(f"TRUNCATE {tables} CASCADE"))
+
+
+@pytest.fixture
+def outbox(monkeypatch) -> list[dict]:
+    """Включает почту и собирает письма вместо отправки."""
+    sent: list[dict] = []
+
+    async def fake_send(to: str, subject: str, body: str) -> bool:
+        sent.append({"to": to, "subject": subject, "body": body})
+        return True
+
+    monkeypatch.setattr(get_settings(), "smtp_host", "smtp.test")
+    monkeypatch.setattr(mail, "send_mail", fake_send)
+    return sent
+
+
+def link_token(message: dict, kind: str) -> str:
+    """Токен из ссылки вида http://testserver/<kind>/<token> в теле письма."""
+    marker = f"http://testserver/{kind}/"
+    return message["body"].split(marker, 1)[1].split()[0]
 
 
 @pytest.fixture

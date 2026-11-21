@@ -23,3 +23,11 @@ def new_token() -> str:
 def hash_token(token: str) -> str:
     # В БД лежит только хэш: утечка таблицы не даёт готовых сессий и ссылок.
     return hashlib.sha256(token.encode()).hexdigest()
+
+
+API_TOKEN_PREFIX = "sdl_"
+
+
+def new_api_token() -> str:
+    # Префикс отличает токен от прочих секретов в логах и сканерах утечек.
+    return API_TOKEN_PREFIX + secrets.token_urlsafe(32)

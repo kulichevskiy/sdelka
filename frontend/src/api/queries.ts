@@ -15,6 +15,8 @@ import { api } from './client'
 import type {
   Activity,
   ActivityCreate,
+  ApiToken,
+  ApiTokenCreated,
   Company,
   CompanyPatch,
   Contact,
@@ -36,6 +38,7 @@ import type {
   Task,
   TaskPatch,
   User,
+  VerificationPending,
   UserStatus,
 } from './types'
 
@@ -50,6 +53,7 @@ export const keys = {
   activities: ['activities'] as const,
   customFields: ['custom-fields'] as const,
   lossReasons: ['loss-reasons'] as const,
+  apiTokens: ['api-tokens'] as const,
 }
 
 const list =
@@ -435,8 +439,19 @@ export function useAuthMutations() {
     onSuccess: setMe,
   })
   const register = useMutation({
-    mutationFn: (body: import('./types').RegisterBody) => api.post<Me>('/auth/register', body),
+    mutationFn: (body: import('./types').RegisterBody) =>
+      api.post<Me | VerificationPending>('/auth/register', body),
+    // С включённой почтой сессии ещё нет: её даст переход по ссылке из письма
+    onSuccess: (result) => {
+      if (!('verificationRequired' in result)) setMe(result)
+    },
+  })
+  const verifyEmail = useMutation({
+    mutationFn: (body: { token: string }) => api.post<Me>('/auth/verify-email', body),
     onSuccess: setMe,
+  })
+  const resendVerification = useMutation({
+    mutationFn: (body: { email: string }) => api.post('/auth/resend-verification', body),
   })
   const acceptInvite = useMutation({
     mutationFn: (body: { token: string; name: string; password: string }) =>
@@ -466,6 +481,8 @@ export function useAuthMutations() {
   return {
     login,
     register,
+    verifyEmail,
+    resendVerification,
     acceptInvite,
     logout,
     updateProfile,
@@ -473,4 +490,22 @@ export function useAuthMutations() {
     forgotPassword,
     resetPassword,
   }
+}
+
+// ---- API-токены ----
+
+export const useApiTokens = list<ApiToken>(keys.apiTokens, '/auth/api-tokens')
+
+export function useApiTokenMutations() {
+  const client = useQueryClient()
+  const refresh = () => client.invalidateQueries({ queryKey: keys.apiTokens })
+  const create = useMutation({
+    mutationFn: (body: { name: string }) => api.post<ApiTokenCreated>('/auth/api-tokens', body),
+    onSuccess: refresh,
+  })
+  const revoke = useMutation({
+    mutationFn: (id: string) => api.delete(`/auth/api-tokens/${id}`),
+    onSuccess: refresh,
+  })
+  return { create, revoke }
 }

@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Moon, Sun, SunMoon } from 'lucide-react'
 import { useAuthMutations } from '@/api/queries'
+import { ApiTokensSection } from '@/app/ApiTokensSection'
 import { Alert, Button, Field, labelClass } from '@/components/ui'
 import { roleLabel } from '@/lib/roles'
 import { themeLabels, useTheme, type Theme } from '@/lib/theme'
@@ -70,6 +71,8 @@ export function SettingsPage() {
         </div>
         {changePassword.error && <div className="mt-3"><Alert>{changePassword.error.message}</Alert></div>}
       </form>
+
+      <ApiTokensSection />
 
       <section className="mt-4 rounded-xl border border-stone-200 p-4 dark:border-stone-800">
         <h2 className="text-sm font-semibold text-stone-900 dark:text-stone-100">Тема</h2>

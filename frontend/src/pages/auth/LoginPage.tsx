@@ -1,8 +1,10 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { ApiError } from '@/api/client'
 import { useAuthMutations } from '@/api/queries'
 import { Alert, Button, Field } from '@/components/ui'
 import { AuthLayout } from './AuthLayout'
+import { ResendVerification } from './ResendVerification'
 
 export function LoginPage() {
   const navigate = useNavigate()
@@ -50,6 +52,9 @@ export function LoginPage() {
           onChange={(event) => setPassword(event.target.value)}
         />
         {login.error && <Alert>{login.error.message}</Alert>}
+        {login.error instanceof ApiError && login.error.code === 'email_unverified' && (
+          <ResendVerification key={login.variables?.email} email={login.variables?.email ?? email.trim()} />
+        )}
         <Button type="submit" loading={login.isPending} className="mt-1 w-full">
           Войти
         </Button>

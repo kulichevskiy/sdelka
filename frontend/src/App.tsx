@@ -11,6 +11,7 @@ import { RegisterPage } from '@/pages/auth/RegisterPage'
 import { InvitePage } from '@/pages/auth/InvitePage'
 import { ForgotPasswordPage } from '@/pages/auth/ForgotPasswordPage'
 import { ResetPasswordPage } from '@/pages/auth/ResetPasswordPage'
+import { VerifyEmailPage } from '@/pages/auth/VerifyEmailPage'
 import { TodayPage } from '@/pages/TodayPage'
 import { DealsPage } from '@/pages/DealsPage'
 import { ContactsPage } from '@/pages/ContactsPage'
@@ -65,9 +66,10 @@ export function App() {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       </Route>
 
-      {/* Инвайт и сброс доступны и залогиненным: человек мог сидеть под другим аккаунтом */}
+      {/* Ссылки из писем доступны и залогиненным: человек мог сидеть под другим аккаунтом */}
       <Route path="/invite/:token" element={<InvitePage />} />
       <Route path="/reset/:token" element={<ResetPasswordPage />} />
+      <Route path="/verify/:token" element={<VerifyEmailPage />} />
 
       <Route element={<RequireAuth />}>
         <Route path="/today" element={<TodayPage />} />

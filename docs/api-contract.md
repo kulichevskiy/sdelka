@@ -12,14 +12,23 @@
   `createdAt` у сделки). Временные метки — ISO 8601 с таймзоной.
 - Деньги — целые числа в минимальной единице не нужны: `amount` — число (numeric(14,2)),
   на проводе number.
-- Аутентификация — httpOnly cookie `session` (opaque token, 32+ байт, хранится хэш
+- Аутентификация браузера — httpOnly cookie `session` (opaque token, 32+ байт, хранится хэш
   в таблице `sessions`, срок 30 дней, продлевается при активности). `SameSite=Lax`,
   `Secure` если `APP_URL` начинается с https.
+- Аутентификация интеграций — личный API-токен в заголовке `Authorization: Bearer sdl_…`
+  (см. «API-токены»). Токен действует от имени выпустившего пользователя, с его ролью и
+  организацией, на все эндпоинты, кроме помеченных **[браузер]**. Если заголовок передан,
+  cookie игнорируется: неверный токен → `401`, даже при живой сессии.
 - Все доменные ресурсы принадлежат организации текущего пользователя. Клиент никогда
   не передаёт `orgId`. Доступ к чужому объекту → `404`.
+- Все организации живут в общих таблицах; изоляцию обеспечивает RLS в PostgreSQL
+  (политики по `org_id`, организация задаётся на каждую транзакцию), фильтры по `org_id`
+  в коде остаются вторым рубежом.
 - Ошибки: `{ "detail": "человекочитаемое сообщение на русском" }` и HTTP-код.
   Ошибки валидации Pydantic — стандартный формат FastAPI (`422`).
-  `401` — нет сессии, `403` — не хватает роли, `409` — конфликт (email занят и т.п.).
+  `401` — нет сессии или токена, `403` — не хватает роли, `409` — конфликт (email занят и т.п.).
+  У отдельных ошибок есть машинный код в заголовке `X-Error-Code`.
+- Пометка **[браузер]** = только cookie-сессия; с API-токеном → `403`.
 - Роли: `owner` > `admin` > `member`. Пометка **[admin]** ниже = owner или admin.
   Без пометки — любой активный участник.
 - Пользователь со статусом `disabled` не может войти; активные сессии удаляются
@@ -56,6 +65,9 @@ type OnboardingKey = 'deal' | 'contact' | 'invite' | 'pipeline' | 'task'
 // pipeline — стадии когда-либо меняли (флаг org.pipeline_customized);
 // task — есть хотя бы одна задача.
 
+interface VerificationPending { verificationRequired: true; email: string }
+interface ApiToken { id; name; prefix: string /* первые 8 символов токена */; lastUsedAt: string | null; createdAt }
+
 interface User { id; name; email; role: Role; status: UserStatus; createdAt }
 interface Stage { id; name; order: number; isClosing: boolean }
 interface Company { id; name; industry; website; phone; ownerId; note; customValues; createdAt }
@@ -79,20 +91,36 @@ interface LossReason { id; name; usageCount: number /* сделок с lostReaso
 
 | Метод | Путь | Тело / ответ |
 |---|---|---|
-| POST | `/api/auth/register` | `{ name, email, password, orgName, currency, pipelineTemplate: 'standard' \| 'empty' }` → `Me`, ставит cookie. Создаёт организацию, пользователя-owner. `standard` = стадии «Новая заявка, Квалификация, Предложение, Переговоры, Закрыто(isClosing)»; `empty` = только «Закрыто». Пароль ≥ 8 символов. Email занят → 409. |
-| POST | `/api/auth/login` | `{ email, password }` → `Me`. Неверно → 401 «Неверная почта или пароль». Disabled → 403. |
+| POST | `/api/auth/register` | `{ name, email, password, orgName, currency, pipelineTemplate: 'standard' \| 'empty' }` → `201 Me`, ставит cookie — если SMTP не настроен. Если настроен → `202 VerificationPending` без cookie: уходит письмо со ссылкой `${APP_URL}/verify/${token}`, войти можно только после подтверждения. Создаёт организацию, пользователя-owner. `standard` = стадии «Новая заявка, Квалификация, Предложение, Переговоры, Закрыто(isClosing)»; `empty` = только «Закрыто». Пароль ≥ 8 символов. Email занят → 409. |
+| POST | `/api/auth/verify-email` | `{ token }` → `Me`, ставит cookie. Невалидный/использованный токен → 404. |
+| POST | `/api/auth/resend-verification` | `{ email }` → `204` всегда. Письмо уходит, только если почта ждёт подтверждения, и не чаще раза в минуту; новая ссылка гасит прежнюю. |
+| POST | `/api/auth/login` | `{ email, password }` → `Me`. Неверно → 401 «Неверная почта или пароль». Disabled → 403. Почта не подтверждена → 403 с `X-Error-Code: email_unverified`. |
 | POST | `/api/auth/logout` | → 204, удаляет сессию и cookie |
 | GET | `/api/auth/me` | → `Me` |
 | PATCH | `/api/auth/me` | `{ name? }` → `Me` |
-| POST | `/api/auth/change-password` | `{ currentPassword, newPassword }` → 204 |
+| POST | `/api/auth/change-password` **[браузер]** | `{ currentPassword, newPassword }` → 204. Если SMTP настроен — письмо-уведомление о смене пароля. |
 | GET | `/api/auth/invite/{token}` | → `{ email, orgName, inviterName, role }`; невалидный/использованный → 404 |
-| POST | `/api/auth/accept-invite` | `{ token, name, password }` → `Me`, ставит cookie; статус → `active` |
+| POST | `/api/auth/accept-invite` | `{ token, name, password }` → `Me`, ставит cookie; статус → `active`, почта считается подтверждённой |
 | POST | `/api/auth/forgot-password` | `{ email }` → `204` всегда. Если SMTP настроен — письмо. Если нет — ничего (ссылку выдаёт админ через `/api/users/{id}/reset-link`). |
 | GET | `/api/auth/reset/{token}` | → `{ email }` или 404 |
-| POST | `/api/auth/reset-password` | `{ token, password }` → 204 |
+| POST | `/api/auth/reset-password` | `{ token, password }` → 204. Удаляет все сессии и API-токены пользователя, гасит ссылки подтверждения почты, шлёт письмо-уведомление. Сброс по ссылке из письма заодно подтверждает почту. |
 
-Токены приглашения и сброса — случайные, в БД хранится sha256, срок: приглашение 14 дней,
-сброс 2 часа, одноразовые.
+Токены приглашения, сброса и подтверждения почты — случайные, в БД хранится sha256, срок:
+приглашение 14 дней, сброс 2 часа, подтверждение 48 часов, одноразовые.
+
+Пользователи, созданные до появления подтверждения почты, считаются подтверждёнными.
+
+## API-токены
+
+| Метод | Путь | |
+|---|---|---|
+| GET | `/api/auth/api-tokens` **[браузер]** | → `ApiToken[]` текущего пользователя, новые сверху |
+| POST | `/api/auth/api-tokens` **[браузер]** | `{ name }` → `201 ApiToken & { token: string }`. Сам токен (`sdl_` + 43 символа) отдаётся только здесь, в БД хранится sha256. Не больше 20 на пользователя → 409. |
+| DELETE | `/api/auth/api-tokens/{id}` **[браузер]** | → 204. Чужой или несуществующий → 404. |
+
+Токены бессрочные, живут до отзыва. Все токены пользователя удаляются при сбросе пароля и
+при отключении пользователя. `lastUsedAt` обновляется не чаще раза в 5 минут.
+Пример: `curl -H "Authorization: Bearer sdl_…" https://sdelka.app/api/deals`.
 
 ## Организация и онбординг
 
@@ -109,12 +137,12 @@ interface LossReason { id; name; usageCount: number /* сделок с lostReaso
 | Метод | Путь | |
 |---|---|---|
 | GET | `/api/users` | → `User[]` (все статусы) |
-| POST | `/api/users/invite` **[admin]** | `{ email, role: 'admin' \| 'member' }` → `{ user: User, inviteUrl: string \| null }`. `inviteUrl` = `${APP_URL}/invite/${token}`, возвращается всегда (админ может скопировать), письмо отправляется, если есть SMTP. Email уже в организации → 409. |
-| POST | `/api/users/{id}/resend-invite` **[admin]** | → `{ inviteUrl }`, новый токен, старый гасится. Только для `invited`. |
-| POST | `/api/users/{id}/reset-link` **[admin]** | → `{ resetUrl }`. Только для `active`. |
-| PATCH | `/api/users/{id}` **[admin]** | `{ role?: 'admin' \| 'member', status?: 'active' \| 'disabled' }`. Нельзя: менять owner'a; менять себя; admin не может менять другого admin (только owner может). Нарушение → 403. |
-| POST | `/api/users/{id}/transfer-ownership` **[owner]** | → 204. Целевой должен быть `active`. Бывший owner становится admin. |
-| DELETE | `/api/users/{id}` **[admin]** | → 204. Только для `invited` (отмена приглашения). |
+| POST | `/api/users/invite` **[admin]** **[браузер]** | `{ email, role: 'admin' \| 'member' }` → `{ user: User, inviteUrl: string \| null }`. `inviteUrl` = `${APP_URL}/invite/${token}`, возвращается всегда (админ может скопировать), письмо отправляется, если есть SMTP. Email уже в организации → 409. |
+| POST | `/api/users/{id}/resend-invite` **[admin]** **[браузер]** | → `{ inviteUrl }`, новый токен, старый гасится. Только для `invited`. |
+| POST | `/api/users/{id}/reset-link` **[admin]** **[браузер]** | → `{ resetUrl }`. Только для `active`. |
+| PATCH | `/api/users/{id}` **[admin]** **[браузер]** | `{ role?: 'admin' \| 'member', status?: 'active' \| 'disabled' }`. Нельзя: менять owner'a; менять себя; admin не может менять другого admin (только owner может). Нарушение → 403. |
+| POST | `/api/users/{id}/transfer-ownership` **[owner]** **[браузер]** | → 204. Целевой должен быть `active`. Бывший owner становится admin. |
+| DELETE | `/api/users/{id}` **[admin]** **[браузер]** | → 204. Только для `invited` (отмена приглашения). |
 
 ## Стадии
 
@@ -192,7 +220,8 @@ interface LossReason { id; name; usageCount: number /* сделок с lostReaso
 ## Служебное
 
 - `GET /api/health` → `{ status: 'ok' }` (без авторизации).
-- `GET /api/openapi.json`, `/api/docs` — стандартные FastAPI, только когда `DEBUG=true`.
+- `GET /api/openapi.json`, `/api/docs` — стандартные FastAPI, доступны всегда: это
+  документация публичного API (в Swagger токен вводится через «Authorize»).
 
 ## Переменные окружения (backend)
 
@@ -201,5 +230,9 @@ DATABASE_URL=postgresql+asyncpg://crm:crm@db:5432/crm
 SECRET_KEY=...            # для подписи ничего не нужно, но используется как соль cookie-имени/CSRF при желании
 APP_URL=http://localhost:8080   # для ссылок в письмах и инвайтах
 DEBUG=false
-SMTP_HOST= SMTP_PORT=587 SMTP_USER= SMTP_PASSWORD= SMTP_FROM=   # пусто = почта отключена
+POSTBOX_KEY_ID= POSTBOX_SECRET_KEY=   # Yandex Cloud Postbox по HTTPS (в проде: SMTP на хостинге закрыт)
+SMTP_HOST= SMTP_PORT=587 SMTP_USER= SMTP_PASSWORD=   # любой SMTP: 587 — STARTTLS, 465 — TLS
+SMTP_FROM=   # отправитель для обоих вариантов; нет ни ключей Postbox, ни SMTP_HOST = почта отключена
+# Пользователь БД из DATABASE_URL — владелец схемы; миграции создают роль sdelka_app
+# (нужен CREATEROLE или SUPERUSER), на неё приложение переключается в каждой транзакции.
 ```

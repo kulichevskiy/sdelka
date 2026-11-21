@@ -29,6 +29,8 @@ services:
       SECRET_KEY: ${SECRET_KEY:?SECRET_KEY обязателен, см. .env.example}
       APP_URL: ${APP_URL:-http://localhost:8080}
       DEBUG: ${DEBUG:-false}
+      POSTBOX_KEY_ID: ${POSTBOX_KEY_ID:-}
+      POSTBOX_SECRET_KEY: ${POSTBOX_SECRET_KEY:-}
       SMTP_HOST: ${SMTP_HOST:-}
       SMTP_PORT: ${SMTP_PORT:-587}
       SMTP_USER: ${SMTP_USER:-}

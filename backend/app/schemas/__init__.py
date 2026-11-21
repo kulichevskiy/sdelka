@@ -108,6 +108,38 @@ class ResetPasswordIn(CamelModel):
     password: str = Field(min_length=8, max_length=200)
 
 
+class VerificationPending(CamelModel):
+    """Ответ регистрации, когда вход откроется только после перехода по ссылке из письма."""
+
+    verification_required: Literal[True] = True
+    email: str
+
+
+class VerifyEmailIn(CamelModel):
+    token: str
+
+
+class ResendVerificationIn(CamelModel):
+    email: EmailStr
+
+
+class ApiTokenIn(CamelModel):
+    name: str = Field(min_length=1, max_length=100)
+
+
+class ApiTokenOut(CamelModel):
+    id: uuid.UUID
+    name: str
+    prefix: str
+    last_used_at: datetime | None
+    created_at: datetime
+
+
+class ApiTokenCreated(ApiTokenOut):
+    # Сам токен отдаётся один раз, при создании: в БД остаётся только хэш.
+    token: str
+
+
 # --- Org ---
 
 

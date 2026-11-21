@@ -15,18 +15,21 @@ from app.api.routers import (
     tasks,
     users,
 )
-from app.core.config import get_settings
 
 logging.basicConfig(level=logging.INFO)
 
 
 def create_app() -> FastAPI:
-    cfg = get_settings()
     app = FastAPI(
         title="Сделка API",
         version="0.1.0",
+        description=(
+            "API CRM «Сделка». Запросы подписываются личным токеном из раздела "
+            "«Настройки → API-токены»: заголовок `Authorization: Bearer sdl_…`. Токен действует "
+            "от имени пользователя и видит только его организацию."
+        ),
         openapi_url="/api/openapi.json",
-        docs_url="/api/docs" if cfg.debug else None,
+        docs_url="/api/docs",
         redoc_url=None,
     )
     api = APIRouter(prefix="/api")

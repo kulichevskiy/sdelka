@@ -4,8 +4,9 @@ from fastapi import APIRouter, HTTPException
 from sqlalchemy import delete, select
 
 from app.api.common import get_or_404
-from app.core.deps import DB, Admin, Cur, Current, Owner
-from app.models import Session, User
+from app.core.db import system_session
+from app.core.deps import DB, BrowserAdmin, BrowserOwner, Cur, Current
+from app.models import ApiToken, Session, User
 from app.schemas import InviteIn, InviteOut, InviteUrlOut, ResetUrlOut, UserOut, UserPatch
 from app.services import mail, tokens
 
@@ -27,13 +28,18 @@ async def list_users(current: Cur, db: DB) -> list[UserOut]:
 
 
 @router.post("/invite", response_model=InviteOut, status_code=201)
-async def invite(body: InviteIn, current: Admin, db: DB) -> InviteOut:
+async def invite(body: InviteIn, current: BrowserAdmin, db: DB) -> InviteOut:
     email = body.email.lower()
-    taken = (await db.execute(select(User).where(User.email == email))).scalar_one_or_none()
-    if taken is not None:
+    # Почта уникальна на всю систему, а RLS показывает только свою организацию —
+    # занятость проверяем системной сессией.
+    async with system_session() as sysdb:
+        taken_org = (
+            await sysdb.execute(select(User.org_id).where(User.email == email))
+        ).scalar_one_or_none()
+    if taken_org is not None:
         detail = (
             "Этот человек уже в организации"
-            if taken.org_id == current.org_id
+            if taken_org == current.org_id
             else "Эта почта уже используется в другой организации"
         )
         raise HTTPException(409, detail)
@@ -54,7 +60,7 @@ async def invite(body: InviteIn, current: Admin, db: DB) -> InviteOut:
 
 
 @router.post("/{user_id}/resend-invite", response_model=InviteUrlOut)
-async def resend_invite(user_id: uuid.UUID, current: Admin, db: DB) -> InviteUrlOut:
+async def resend_invite(user_id: uuid.UUID, current: BrowserAdmin, db: DB) -> InviteUrlOut:
     user = await get_or_404(db, User, user_id, current.org_id)
     if user.status != "invited":
         raise HTTPException(409, "Приглашение уже принято")
@@ -66,7 +72,7 @@ async def resend_invite(user_id: uuid.UUID, current: Admin, db: DB) -> InviteUrl
 
 
 @router.post("/{user_id}/reset-link", response_model=ResetUrlOut)
-async def reset_link(user_id: uuid.UUID, current: Admin, db: DB) -> ResetUrlOut:
+async def reset_link(user_id: uuid.UUID, current: BrowserAdmin, db: DB) -> ResetUrlOut:
     user = await get_or_404(db, User, user_id, current.org_id)
     if user.status != "active":
         raise HTTPException(409, "Сбросить пароль можно только активному пользователю")
@@ -85,7 +91,7 @@ def _check_can_manage(current: Current, target: User) -> None:
 
 
 @router.patch("/{user_id}", response_model=UserOut)
-async def patch_user(user_id: uuid.UUID, body: UserPatch, current: Admin, db: DB) -> UserOut:
+async def patch_user(user_id: uuid.UUID, body: UserPatch, current: BrowserAdmin, db: DB) -> UserOut:
     user = await get_or_404(db, User, user_id, current.org_id)
     _check_can_manage(current, user)
     if body.role is not None:
@@ -96,12 +102,13 @@ async def patch_user(user_id: uuid.UUID, body: UserPatch, current: Admin, db: DB
         user.status = body.status
         if body.status == "disabled":
             await db.execute(delete(Session).where(Session.user_id == user.id))
+            await db.execute(delete(ApiToken).where(ApiToken.user_id == user.id))
     await db.commit()
     return UserOut.model_validate(user)
 
 
 @router.post("/{user_id}/transfer-ownership", status_code=204)
-async def transfer_ownership(user_id: uuid.UUID, current: Owner, db: DB) -> None:
+async def transfer_ownership(user_id: uuid.UUID, current: BrowserOwner, db: DB) -> None:
     user = await get_or_404(db, User, user_id, current.org_id)
     if user.status != "active":
         raise HTTPException(409, "Передать владение можно только активному пользователю")
@@ -113,7 +120,7 @@ async def transfer_ownership(user_id: uuid.UUID, current: Owner, db: DB) -> None
 
 
 @router.delete("/{user_id}", status_code=204)
-async def cancel_invite(user_id: uuid.UUID, current: Admin, db: DB) -> None:
+async def cancel_invite(user_id: uuid.UUID, current: BrowserAdmin, db: DB) -> None:
     user = await get_or_404(db, User, user_id, current.org_id)
     if user.status != "invited":
         raise HTTPException(409, "Удалить можно только приглашённого пользователя")
