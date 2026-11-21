@@ -60,6 +60,7 @@ jobs:
     needs: [backend, frontend]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     environment:
       name: production
       url: https://sdelka.app
@@ -70,6 +71,15 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          # Без таймаутов зависшее соединение держит job до отмены вручную.
+          cat > ~/.ssh/config <<'CONF'
+          Host *
+            BatchMode yes
+            ConnectTimeout 15
+            ConnectionAttempts 4
+            ServerAliveInterval 15
+            ServerAliveCountMax 4
+          CONF
       - name: git pull && docker compose up
         run: |
           ssh root@${{ secrets.SSH_HOST }} bash -s <<'REMOTE'
