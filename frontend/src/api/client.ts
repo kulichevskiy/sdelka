@@ -5,9 +5,12 @@
 
 export class ApiError extends Error {
   status: number
-  constructor(status: number, message: string) {
+  /** Машинный код из заголовка X-Error-Code, например `email_unverified` */
+  code: string | null
+  constructor(status: number, message: string, code: string | null = null) {
     super(message)
     this.status = status
+    this.code = code
   }
 }
 
@@ -57,7 +60,11 @@ async function request<T>(method: Method, path: string, body?: unknown, csv = fa
 
   if (!response.ok) {
     if (response.status === 401) onUnauthorized?.()
-    throw new ApiError(response.status, extractDetail(payload, `Ошибка ${response.status}`))
+    throw new ApiError(
+      response.status,
+      extractDetail(payload, `Ошибка ${response.status}`),
+      response.headers.get('X-Error-Code'),
+    )
   }
   return payload as T
 }

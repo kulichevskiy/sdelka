@@ -199,3 +199,22 @@ export interface CustomFieldCreate {
   isRequired: boolean
   options?: string[]
 }
+
+/** Ответ регистрации, когда почта включена: войти можно после перехода по ссылке из письма */
+export interface VerificationPending {
+  verificationRequired: true
+  email: string
+}
+
+export interface ApiToken {
+  id: string
+  name: string
+  /** Начало токена — чтобы узнать его в списке; целиком токен показывается один раз */
+  prefix: string
+  lastUsedAt: string | null
+  createdAt: string
+}
+
+export interface ApiTokenCreated extends ApiToken {
+  token: string
+}

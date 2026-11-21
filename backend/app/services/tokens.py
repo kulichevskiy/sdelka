@@ -1,4 +1,4 @@
-"""Одноразовые ссылки: приглашения и сброс пароля."""
+"""Одноразовые ссылки: приглашения, сброс пароля, подтверждение почты."""
 
 import uuid
 from datetime import UTC, datetime, timedelta
@@ -16,11 +16,11 @@ async def issue(
 ) -> str:
     """Выдаёт новый токен и гасит прежние того же вида: живой должен быть ровно один."""
     settings = get_settings()
-    ttl = (
-        timedelta(days=settings.invite_ttl_days)
-        if kind == "invite"
-        else timedelta(hours=settings.reset_ttl_hours)
-    )
+    ttl = {
+        "invite": timedelta(days=settings.invite_ttl_days),
+        "reset": timedelta(hours=settings.reset_ttl_hours),
+        "verify": timedelta(hours=settings.verify_ttl_hours),
+    }[kind]
     now = datetime.now(UTC)
     await db.execute(
         update(Token)
@@ -43,8 +43,7 @@ async def issue(
 
 def url_for(kind: str, token: str) -> str:
     base = get_settings().app_url.rstrip("/")
-    path = "invite" if kind == "invite" else "reset"
-    return f"{base}/{path}/{token}"
+    return f"{base}/{kind}/{token}"
 
 
 async def find_valid(db: AsyncSession, kind: str, token: str) -> Token | None:

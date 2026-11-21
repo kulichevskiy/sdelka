@@ -5,6 +5,7 @@ import { useAuthMutations } from '@/api/queries'
 import type { Currency, PipelineTemplate } from '@/api/types'
 import { Alert, Button, Field, labelClass } from '@/components/ui'
 import { AuthLayout } from './AuthLayout'
+import { ResendVerification } from './ResendVerification'
 
 const currencies: Array<{ value: Currency; label: string; hint: string }> = [
   { value: 'RUB', label: '₽', hint: 'Рубли' },
@@ -39,6 +40,8 @@ export function RegisterPage() {
   const [orgName, setOrgName] = useState('')
   const [currency, setCurrency] = useState<Currency>('RUB')
   const [template, setTemplate] = useState<PipelineTemplate>('standard')
+  /** Почта, на которую ушло письмо с подтверждением; пусто, пока форма не отправлена */
+  const [sentTo, setSentTo] = useState<string | null>(null)
 
   const passwordError = password.length > 0 && password.length < 8 ? 'Минимум 8 символов' : undefined
 
@@ -52,7 +55,31 @@ export function RegisterPage() {
     event.preventDefault()
     register.mutate(
       { name: name.trim(), email: email.trim(), password, orgName: orgName.trim(), currency, pipelineTemplate: template },
-      { onSuccess: () => navigate('/deals', { replace: true }) },
+      {
+        onSuccess: (result) => {
+          if ('verificationRequired' in result) setSentTo(result.email)
+          else navigate('/deals', { replace: true })
+        },
+      },
+    )
+  }
+
+  if (sentTo) {
+    return (
+      <AuthLayout
+        title="Подтвердите почту"
+        subtitle={`Отправили письмо на ${sentTo}. Откройте ссылку из него, и организация будет готова к работе.`}
+        footer={
+          <Link to="/login" className="font-medium text-stone-900 underline-offset-2 hover:underline dark:text-stone-100">
+            Ко входу
+          </Link>
+        }
+      >
+        <div className="flex flex-col gap-3">
+          <Alert tone="info">Ссылка действует 48 часов. Письма нет — проверьте папку «Спам».</Alert>
+          <ResendVerification email={sentTo} />
+        </div>
+      </AuthLayout>
     )
   }
 

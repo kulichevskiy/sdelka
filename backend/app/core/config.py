@@ -17,9 +17,16 @@ class Settings(BaseSettings):
     smtp_password: str = ""
     smtp_from: str = "Сделка <noreply@sdelka.app>"
 
+    # Yandex Cloud Postbox по HTTPS: для хостингов, где исходящий SMTP закрыт.
+    # Статический ключ доступа сервисного аккаунта с ролью postbox.sender.
+    postbox_key_id: str = ""
+    postbox_secret_key: str = ""
+    postbox_endpoint: str = "https://postbox.cloud.yandex.net"
+
     session_ttl_days: int = 30
     invite_ttl_days: int = 14
     reset_ttl_hours: int = 2
+    verify_ttl_hours: int = 48
 
     @property
     def cookie_secure(self) -> bool:
@@ -27,7 +34,11 @@ class Settings(BaseSettings):
 
     @property
     def mail_enabled(self) -> bool:
-        return bool(self.smtp_host)
+        return self.postbox_enabled or bool(self.smtp_host)
+
+    @property
+    def postbox_enabled(self) -> bool:
+        return bool(self.postbox_key_id and self.postbox_secret_key)
 
 
 @lru_cache

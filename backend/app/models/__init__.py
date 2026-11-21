@@ -1,6 +1,8 @@
-"""Модель данных. Все доменные таблицы несут org_id и составной уникальный ключ
-(org_id, id): ссылки между сущностями идут через составные FK, поэтому сделка одной
-организации физически не может указывать на стадию или контакт другой."""
+"""Модель данных. Все тенанты живут в общих таблицах. Доменные таблицы несут org_id и
+составной уникальный ключ (org_id, id): ссылки между сущностями идут через составные FK,
+поэтому сделка одной организации физически не может указывать на стадию или контакт
+другой. Чтение и запись чужих строк закрывает RLS — см. app/core/db.py и миграцию 0002.
+У каждой новой таблицы должна быть политика: это проверяет tests/test_rls.py."""
 
 import uuid
 from datetime import date, datetime
@@ -60,6 +62,8 @@ class User(Base):
     # Один email = один аккаунт = одна организация, поэтому уникальность глобальная.
     email: Mapped[str] = mapped_column(String(320), nullable=False, unique=True)
     password_hash: Mapped[str | None] = mapped_column(String(300))
+    # Пусто, пока владелец не перешёл по ссылке из письма: до этого войти нельзя.
+    email_verified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     role: Mapped[str] = mapped_column(String(10), nullable=False)  # owner | admin | member
     status: Mapped[str] = mapped_column(String(10), nullable=False)  # active | invited | disabled
     onboarding_dismissed: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
@@ -80,7 +84,7 @@ class Session(Base):
 
 
 class Token(Base):
-    """Одноразовые ссылки: приглашение или сброс пароля."""
+    """Одноразовые ссылки: приглашение, сброс пароля, подтверждение почты."""
 
     __tablename__ = "tokens"
 
@@ -88,13 +92,30 @@ class Token(Base):
     user_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
     )
-    kind: Mapped[str] = mapped_column(String(10), nullable=False)  # invite | reset
+    kind: Mapped[str] = mapped_column(String(10), nullable=False)  # invite | reset | verify
     token_hash: Mapped[str] = mapped_column(String(64), nullable=False, unique=True)
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     used_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     created_by: Mapped[uuid.UUID | None] = mapped_column(
         UUID(as_uuid=True), ForeignKey("users.id", ondelete="SET NULL")
     )
+    created_at: Mapped[datetime] = _created_at()
+
+
+class ApiToken(Base):
+    """Личный токен для API: действует от имени пользователя, пока не отозван."""
+
+    __tablename__ = "api_tokens"
+
+    id: Mapped[uuid.UUID] = _uuid()
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    name: Mapped[str] = mapped_column(String(100), nullable=False)
+    token_hash: Mapped[str] = mapped_column(String(64), nullable=False, unique=True)
+    # Начало токена: по нему пользователь узнаёт токен в списке, сам токен не хранится.
+    prefix: Mapped[str] = mapped_column(String(16), nullable=False)
+    last_used_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     created_at: Mapped[datetime] = _created_at()
 
 

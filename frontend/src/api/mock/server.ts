@@ -8,6 +8,7 @@
 import seedJson from './demo-seed.json'
 import type {
   Activity,
+  ApiToken,
   Company,
   Contact,
   CustomField,
@@ -43,6 +44,7 @@ interface Db {
   lossReasons: Array<Omit<LossReason, 'usageCount'> & { orgId: string }>
   invites: Array<{ token: string; userId: string }>
   resets: Array<{ token: string; userId: string }>
+  apiTokens?: Array<ApiToken & { userId: string }>
   sessionUserId: string | null
 }
 
@@ -376,6 +378,26 @@ route('POST', '/auth/change-password', (_p, body) => {
   user.password = body.newPassword
   return null
 })
+// В моке почты нет, поэтому регистрация не требует подтверждения — как бэкенд без SMTP.
+route('GET', '/auth/api-tokens', () => {
+  const user = currentUser()
+  return (db.apiTokens ?? []).filter((t) => t.userId === user.id).map(({ userId: _u, ...rest }) => rest)
+})
+route('POST', '/auth/api-tokens', (_p, body) => {
+  const user = currentUser()
+  const token = `sdl_${uid()}${Math.random().toString(36).slice(2)}${Math.random().toString(36).slice(2)}`
+  const row = { id: uid(), name: String(body.name).trim(), prefix: token.slice(0, 8), lastUsedAt: null, createdAt: nowIso() }
+  db.apiTokens = [{ ...row, userId: user.id }, ...(db.apiTokens ?? [])]
+  return { ...row, token }
+})
+route('DELETE', '/auth/api-tokens/:id', ({ id }) => {
+  const user = currentUser()
+  const before = db.apiTokens ?? []
+  db.apiTokens = before.filter((t) => !(t.id === id && t.userId === user.id))
+  if (db.apiTokens.length === before.length) throw new HttpError(404, 'Не найдено')
+  return null
+})
+
 route('GET', '/auth/invite/:token', ({ token }) => {
   const invite = db.invites.find((i) => i.token === token)
   const user = invite && db.users.find((u) => u.id === invite.userId)
